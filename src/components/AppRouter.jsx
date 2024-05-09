@@ -6,7 +6,7 @@ const AppRouter = () => {
   return (
     <Routes>
       {routes.map((route) => (
-        <Route path={route.path} element={route.element} />
+        <Route key={route.path} path={route.path} element={route.element} />
       ))}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

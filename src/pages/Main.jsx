@@ -1,10 +1,14 @@
 import React from "react";
+import MainСalories from "../components/main/MainСalories";
+import Dishes from "../components/dishes/Dishes";
+import Water from "../components/water/Water";
 
 const Main = () => {
   return (
     <div>
-      <h1>Головна сторінка</h1>
-      <div>калорії</div>
+      <MainСalories />,
+      <Dishes />,
+      <Water/>
     </div>
   );
 };

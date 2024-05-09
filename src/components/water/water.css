@@ -1,0 +1,19 @@
+.block__water {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: 200px;
+  background-color: #cdd59c;
+  border: none;
+  margin: auto;
+  box-shadow: 11px 11px 24px -1px rgba(48, 41, 41, 0.38);
+  border-radius: 13px;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.block__water-title {
+  color: #302929;
+  font-size: 35px;
+  font-weight: 700;
+}

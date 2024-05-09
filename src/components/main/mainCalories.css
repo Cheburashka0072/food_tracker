@@ -1,0 +1,44 @@
+.block__calories {
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 55px;
+  background-color: #b0cc0d;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #302929;
+}
+.item_calories {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #302929;
+  font-size: 20px;
+}
+.block_data {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn_data {
+  text-align: center;
+  color: #302929;
+  display: flex;
+  background-color: #ffa800;
+  padding: 7px 60px 7px 60px;
+  border-radius: 32px;
+  font-weight: 500;
+  font-size: 20px;
+}
+.arrow {
+  width: 30px;
+  height: 40px;
+  color: #302929;
+}
