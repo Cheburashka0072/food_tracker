@@ -1,6 +1,7 @@
 import logoImg from "./../../img/header/logo.png";
 import header_btnImg from "./../../img/header/header_btn.png";
 import "./header.css";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -14,13 +15,13 @@ function Header() {
           <div className="header__nav">
             <ul>
               <li>
-                <a href="#!">ГОЛОВНА</a>
+                <Link to="/">ГОЛОВНА</Link>
               </li>
               <li>
-                <a href="#!">СТАТИСТИКА</a>
+                <Link to="/statistics">СТАТИСТИКА </Link>
               </li>
               <li>
-                <a href="#!">РЕЦЕПТИ</a>
+                <Link to="/recipes">РЕЦЕПТИ</Link>
               </li>
               <li>
                 <a href="#!">УКР</a>
