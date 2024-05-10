@@ -7,11 +7,11 @@ const Water = () => {
   return (
     <div className="block__water">
       <div className="block__water-title">Вода</div>
-      <div>
+      <div style={{ padding: "10px", fontSize: "20px" }}>
         {0.25 * cups}
         {" L"}
       </div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         {[...Array(10).keys()].map((cup) => (
           <button
             style={{ marginRight: "10px" }}

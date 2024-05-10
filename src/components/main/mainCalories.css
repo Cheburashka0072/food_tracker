@@ -10,17 +10,29 @@
 }
 
 .title {
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
-  margin-bottom: 10px;
   color: #302929;
+  margin-right: 30px;
 }
 .item_calories {
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
   font-weight: bold;
   color: #302929;
   font-size: 20px;
 }
+.label {
+  font-size: 28px;
+  margin-right: 15px;
+}
+.item_stats {
+  display: flex;
+  color: #fff;
+  font-size: 18px;
+}
+
 .block_data {
   margin-top: 30px;
   display: flex;

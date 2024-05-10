@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import RecipesForm from "../components/recipes/RecipesForm";
 import RecipesList from "../components/recipes/RecipesList";
+import MyButton from "../components/UI/button/MyButton";
+import DishesModal from "../components/UI/DishesModal/DishesModal";
 
 const Recipes = () => {
   const [posts, setPosts] = useState([
@@ -8,9 +10,10 @@ const Recipes = () => {
     { id: 2, title: "Рецепт1", body: "Description" },
     { id: 3, title: "Рецепт2", body: "Description" },
   ]);
-
+  const [modal, setModal] = useState(false);
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
+    setModal(false);
   };
 
   const removePost = (post) => {
@@ -21,6 +24,7 @@ const Recipes = () => {
     newPosts[index] = post;
     setPosts(newPosts);
   };
+
   return (
     <div>
       <h1
@@ -34,7 +38,11 @@ const Recipes = () => {
       >
         Рецепти
       </h1>
-      <RecipesForm create={createPost} />
+      <MyButton onClick={() => setModal(true)}>Додати рецепт</MyButton>
+      <DishesModal visible={modal} setVisible={setModal}>
+        <RecipesForm create={createPost} />
+      </DishesModal>
+
       {posts.length !== 0 ? (
         <RecipesList remove={removePost} posts={posts} edit={editPost} />
       ) : (

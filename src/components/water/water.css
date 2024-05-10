@@ -13,6 +13,8 @@
   margin-bottom: 20px;
 }
 .block__water-title {
+  justify-content: center;
+  display: flex;
   color: #302929;
   font-size: 35px;
   font-weight: 700;
