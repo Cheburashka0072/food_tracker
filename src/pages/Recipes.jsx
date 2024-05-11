@@ -38,7 +38,9 @@ const Recipes = () => {
       >
         Рецепти
       </h1>
-      <MyButton onClick={() => setModal(true)}>Додати рецепт</MyButton>
+      <MyButton style={{ display: "flex" }} onClick={() => setModal(true)}>
+        Додати рецепт
+      </MyButton>
       <DishesModal visible={modal} setVisible={setModal}>
         <RecipesForm create={createPost} />
       </DishesModal>
