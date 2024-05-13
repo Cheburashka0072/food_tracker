@@ -73,6 +73,35 @@ const MainСalories = ({
           </div>
         </div>
       </div>
+      <div className="block__circleStats">
+        <div className="circle__external">
+          <div
+            className="circle__inner"
+            style={
+              personCalories > 2000
+                ? { top: "0%", backgroundColor: "red" }
+                : { top: `${(1 - personCalories / 2000) * 100}%` }
+            }
+          ></div>
+        </div>
+        <div className="circle__innerStats">
+          {personCalories > 2000 ? (
+            <>
+              <span style={{ fontSize: "32px" }}>
+                {-(2000 - personCalories)}
+              </span>
+
+              <span>ккал наїв</span>
+            </>
+          ) : (
+            <>
+              <span style={{ fontSize: "32px" }}>{2000 - personCalories}</span>
+
+              <span>ккал залишилось</span>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

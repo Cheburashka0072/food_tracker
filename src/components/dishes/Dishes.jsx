@@ -33,6 +33,7 @@ const Dishes = ({ dishes, meals, addMeal }) => {
             {meal.dishes &&
               meal.dishes.map((dish) => (
                 <div
+                  key={dish.name}
                   style={{ display: "flex", justifyContent: "space-around" }}
                 >
                   <p>{dish.name}</p>
