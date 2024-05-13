@@ -25,6 +25,7 @@ const Main = () => {
         timestamp: Date.parse(date),
         personMeals: [],
         meals: [],
+        water: 0,
       },
     ]
   );
@@ -52,6 +53,7 @@ const Main = () => {
     },
   ]);
   const [calendar, setCalendar] = useState(false);
+  const [water, setWater] = useState(0);
 
   const addMeal = (dish, mealType) => {
     setPersonMeals([...personMeals, dish]);
@@ -67,7 +69,7 @@ const Main = () => {
       (stats) => stats.timestamp === timestamp
     );
     if (currPerson.length > 0) {
-      if (currPerson[0].personMeals.length === 0) {
+      if (currPerson[0].personMeals.length === 0 && !currPerson[0].water) {
         setPersonMeals([]);
         setMeals([
           {
@@ -91,9 +93,11 @@ const Main = () => {
             dishes: [],
           },
         ]);
+        setWater(0);
       } else {
         setPersonMeals(currPerson[0].personMeals);
         setMeals(currPerson[0].meals);
+        setWater(currPerson[0].water);
       }
     } else {
       setPersonStats([
@@ -123,6 +127,7 @@ const Main = () => {
           dishes: [],
         },
       ]);
+      setWater(0);
     }
   };
 
@@ -134,8 +139,11 @@ const Main = () => {
     const newPersonStats = personStats;
     newPersonStats[indexOfStats].personMeals = personMeals;
     newPersonStats[indexOfStats].meals = meals;
+    newPersonStats[indexOfStats].water = water;
     setPersonStats(newPersonStats);
-    const statsToRecord = personStats.filter((stat) => stat.meals.length > 0);
+    const statsToRecord = personStats.filter(
+      (stat) => stat.meals.length > 0 || stat.water > 0
+    );
     localStorage.setItem("recordedStats", JSON.stringify(statsToRecord));
   };
 
@@ -208,7 +216,7 @@ const Main = () => {
         </div>
       )}
       <Dishes dishes={dishes} meals={meals} addMeal={addMeal} />
-      <Water />
+      <Water cups={water} setCups={setWater} />
       <button onClick={() => confirmStats(Date.parse(date))}>Confirm</button>
     </div>
   );

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./water.css";
 import emptyCup from "../../img/water/water1.png";
 import filledCup from "../../img/water/water2.png";
-const Water = () => {
-  const [cups, setCups] = useState(0);
+const Water = ({ cups, setCups }) => {
   return (
     <div className="block__water">
       <div className="block__water-title">Вода</div>
