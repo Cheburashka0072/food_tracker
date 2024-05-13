@@ -14,6 +14,7 @@ const Water = () => {
       <div style={{ display: "flex", justifyContent: "center" }}>
         {[...Array(10).keys()].map((cup) => (
           <button
+            key={cup}
             style={{ marginRight: "10px" }}
             onClick={() => {
               cups === cup + 1 ? setCups(0) : setCups(cup + 1);

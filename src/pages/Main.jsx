@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainСalories from "../components/main/MainСalories";
 import Dishes from "../components/dishes/Dishes";
 import Water from "../components/water/Water";
@@ -11,14 +11,23 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Calendar from "react-calendar";
 
 const Main = () => {
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [personStats, setPersonStats] = useState([
-    {
-      timestamp: Date.parse(date),
-      personMeals: [],
-      meals: [],
-    },
-  ]);
+  const currDate = new Date();
+  currDate.setHours(0);
+  currDate.setMinutes(0);
+  currDate.setSeconds(0);
+  currDate.setMilliseconds(0);
+  const localStorageStats = localStorage.getItem("recordedStats");
+
+  const [date, setDate] = useState(currDate);
+  const [personStats, setPersonStats] = useState(
+    JSON.parse(localStorageStats) || [
+      {
+        timestamp: Date.parse(date),
+        personMeals: [],
+        meals: [],
+      },
+    ]
+  );
   const [personMeals, setPersonMeals] = useState([]);
   const [meals, setMeals] = useState([
     {
@@ -54,11 +63,9 @@ const Main = () => {
   };
 
   const checkPersonStats = (timestamp) => {
-    console.log(timestamp);
     const currPerson = personStats.filter(
       (stats) => stats.timestamp === timestamp
     );
-    console.log(currPerson);
     if (currPerson.length > 0) {
       if (currPerson[0].personMeals.length === 0) {
         setPersonMeals([]);
@@ -125,13 +132,18 @@ const Main = () => {
       if (stat.timestamp === timestamp) indexOfStats = index;
     });
     const newPersonStats = personStats;
-    console.log(indexOfStats);
     newPersonStats[indexOfStats].personMeals = personMeals;
     newPersonStats[indexOfStats].meals = meals;
     setPersonStats(newPersonStats);
+    const statsToRecord = personStats.filter((stat) => stat.meals.length > 0);
+    localStorage.setItem("recordedStats", JSON.stringify(statsToRecord));
   };
 
+  useEffect(() => {
+    checkPersonStats(Date.parse(date));
+  }, [date]);
   console.log(personStats);
+
   return (
     <div>
       <MainСalories
@@ -168,7 +180,6 @@ const Main = () => {
         <button
           onClick={() => {
             setDate(new Date(Date.parse(date) - 86400000));
-            checkPersonStats(Date.parse(date) - 86400000);
           }}
         >
           <ChevronLeftIcon className="arrow" />
@@ -182,7 +193,6 @@ const Main = () => {
         <button
           onClick={() => {
             setDate(new Date(Date.parse(date) + 86400000));
-            checkPersonStats(Date.parse(date) + 86400000);
           }}
         >
           <ChevronRightIcon className="arrow" />

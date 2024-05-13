@@ -8,13 +8,12 @@ const Dishes = ({ dishes, meals, addMeal }) => {
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState();
 
-  console.log(dishes);
   return (
     <div className="block_dishes">
       {meals &&
         meals.map((meal) => (
-          <div className="item__content">
-            <div key={meal.text} className="item">
+          <div key={meal.text} className="item__content">
+            <div className="item">
               <div className="item__dishes">
                 <img className="icon" src={meal.image} alt="" />
                 <span className="text">{meal.text}</span>
@@ -46,6 +45,7 @@ const Dishes = ({ dishes, meals, addMeal }) => {
         {dishes &&
           dishes.map((dish) => (
             <div
+              key={dish.name}
               style={{
                 display: "flex",
                 marginBottom: "10px",

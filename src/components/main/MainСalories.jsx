@@ -8,7 +8,6 @@ const MainСalories = ({
   personProteins,
   personFats,
 }) => {
-  console.log(personCalories);
   return (
     <div className="block">
       <div className="block__calories">
