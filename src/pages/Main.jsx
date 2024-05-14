@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import MainСalories from "../components/main/MainСalories";
 import Dishes from "../components/dishes/Dishes";
 import Water from "../components/water/Water";
-import { dishes } from "../data";
 import DishesIcon1 from "../img/icon1.png";
 import DishesIcon2 from "../img/icon2.png";
 import DishesIcon3 from "../img/icon3.png";
 import DishesIcon4 from "../img/icon4.png";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Calendar from "react-calendar";
-
+import MyButton from "../components/UI/button/MyButton";
+import "react-calendar/dist/Calendar.css";
 const Main = () => {
   const currDate = new Date();
   currDate.setHours(0);
@@ -17,6 +17,43 @@ const Main = () => {
   currDate.setSeconds(0);
   currDate.setMilliseconds(0);
   const localStorageStats = localStorage.getItem("recordedStats");
+  const [dishes, setDishes] = useState([
+    {
+      name: "Колбаса",
+      calories: 300,
+      carbohydrates: 27,
+      proteins: 30,
+      fats: 15,
+    },
+    {
+      name: "Пюре",
+      calories: 400,
+      carbohydrates: 27,
+      proteins: 30,
+      fats: 15,
+    },
+    {
+      name: "Булка",
+      calories: 600,
+      carbohydrates: 27,
+      proteins: 30,
+      fats: 15,
+    },
+    {
+      name: "Сыр",
+      calories: 700,
+      carbohydrates: 27,
+      proteins: 30,
+      fats: 15,
+    },
+    {
+      name: "Сосиска",
+      calories: 800,
+      carbohydrates: 27,
+      proteins: 30,
+      fats: 15,
+    },
+  ]);
 
   const [date, setDate] = useState(currDate);
   const [personStats, setPersonStats] = useState(
@@ -56,11 +93,30 @@ const Main = () => {
   const [water, setWater] = useState(0);
 
   const addMeal = (dish, mealType) => {
-    setPersonMeals([...personMeals, dish]);
-    const editedMeals = meals;
-    editedMeals
-      .filter((meal) => meal.text === mealType)
-      .map((meal) => (meal.dishes = [...meal.dishes, dish]));
+    setPersonMeals([...personMeals, { id: Date.now(), ...dish }]);
+    const editedMeals = [...meals]; // Создаем копию массива meals
+    const mealIndex = editedMeals.findIndex((meal) => meal.text === mealType);
+    if (mealIndex !== -1) {
+      editedMeals[mealIndex] = {
+        ...editedMeals[mealIndex],
+        dishes: [...editedMeals[mealIndex].dishes, { id: Date.now(), ...dish }],
+      };
+      setMeals(editedMeals);
+    }
+  };
+
+  const deleteMeal = (dish, mealType) => {
+    const editedPersonMeals = personMeals.filter((meal) => meal.id !== dish.id);
+    setPersonMeals(editedPersonMeals);
+    const editedMeals = meals.map((meal) => {
+      if (meal.text === mealType) {
+        return {
+          ...meal,
+          dishes: meal.dishes.filter((dishToDel) => dishToDel.id !== dish.id),
+        };
+      }
+      return meal;
+    });
     setMeals(editedMeals);
   };
 
@@ -150,7 +206,6 @@ const Main = () => {
   useEffect(() => {
     checkPersonStats(Date.parse(date));
   }, [date]);
-  console.log(personStats);
 
   return (
     <div>
@@ -207,7 +262,13 @@ const Main = () => {
         </button>
       </div>
       {calendar && (
-        <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
           <Calendar
             value={Date.parse(date)}
             onChange={setDate}
@@ -215,9 +276,28 @@ const Main = () => {
           />
         </div>
       )}
-      <Dishes dishes={dishes} meals={meals} addMeal={addMeal} />
+      <Dishes
+        dishes={dishes}
+        setDishes={setDishes}
+        meals={meals}
+        addMeal={addMeal}
+        deleteMeal={deleteMeal}
+      />
       <Water cups={water} setCups={setWater} />
-      <button onClick={() => confirmStats(Date.parse(date))}>Confirm</button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <MyButton
+          style={{ fontSize: "20px" }}
+          onClick={() => confirmStats(Date.parse(date))}
+        >
+          Confirm
+        </MyButton>
+      </div>
     </div>
   );
 };

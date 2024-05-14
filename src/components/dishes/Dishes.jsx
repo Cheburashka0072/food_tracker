@@ -4,9 +4,29 @@ import "./dishes.css";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import DishesModal from "../UI/DishesModal/DishesModal";
 
-const Dishes = ({ dishes, meals, addMeal }) => {
+const Dishes = ({ dishes, setDishes, meals, addMeal, deleteMeal }) => {
+  console.log(dishes);
+  console.log(meals);
   const [modal, setModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState();
+  const [dishName, setDishName] = useState("");
+  const [dishCalories, setDishCalories] = useState();
+  const [dishCarbohydrates, setDishCarbohydrates] = useState();
+  const [dishProtein, setDishProtein] = useState();
+  const [dishFats, setDishFats] = useState();
+
+  const addDish = () => {
+    const newDish = {
+      name: dishName,
+      calories: dishCalories,
+      carbohydrates: dishCarbohydrates,
+      proteins: dishProtein,
+      fats: dishFats,
+    };
+    const newDishArr = dishes;
+    newDishArr.push(newDish);
+    setDishes(newDishArr);
+  };
 
   return (
     <div className="block_dishes">
@@ -31,13 +51,39 @@ const Dishes = ({ dishes, meals, addMeal }) => {
               </div>
             </div>
             {meal.dishes &&
-              meal.dishes.map((dish) => (
-                <div
-                  key={dish.name}
-                  style={{ display: "flex", justifyContent: "space-around" }}
-                >
-                  <p>{dish.name}</p>
-                  <p>{dish.calories}</p>
+              dishes.map((dish, index) => (
+                <div key={index}>
+                  {meal.dishes.filter((mealDish) => mealDish.name === dish.name)
+                    .length > 0 && (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <p>{dish.name}</p>
+                      <p>{dish.calories}</p>
+                      <p>
+                        {
+                          meal.dishes.filter(
+                            (mealDish) => mealDish.name === dish.name
+                          ).length //reduce по граммовке
+                        }
+                      </p>
+                      <button
+                        onClick={() =>
+                          deleteMeal(
+                            meal.dishes.filter(
+                              (mealDish) => mealDish.name === dish.name
+                            )[0],
+                            meal.text
+                          )
+                        }
+                      >
+                        Удалить
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
           </div>
@@ -68,11 +114,65 @@ const Dishes = ({ dishes, meals, addMeal }) => {
                 }}
                 className="circle"
               >
-                <button onClick={() => addMeal(dish, selectedMeal)}>+</button>
+                <button
+                  onClick={() => addMeal({ value: 200, ...dish }, selectedMeal)} //штампить вес блюда с инпута
+                >
+                  +
+                </button>
               </div>
             </div>
           ))}
       </DishesModal>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <input
+          style={{ border: "1px solid #000" }}
+          type="text"
+          value={dishName}
+          onChange={(e) => {
+            setDishName(e.target.value);
+          }}
+        />
+        <input
+          style={{ border: "1px solid #000" }}
+          type="text"
+          value={dishCalories}
+          placeholder="0"
+          onChange={(e) => {
+            setDishCalories(Number(e.target.value));
+          }}
+        />
+        <input
+          style={{ border: "1px solid #000" }}
+          type="text"
+          value={dishCarbohydrates}
+          onChange={(e) => {
+            setDishCarbohydrates(Number(e.target.value));
+          }}
+        />
+        <input
+          style={{ border: "1px solid #000" }}
+          type="text"
+          value={dishProtein}
+          onChange={(e) => {
+            setDishProtein(Number(e.target.value));
+          }}
+        />
+        <input
+          style={{ border: "1px solid #000" }}
+          type="text"
+          value={dishFats}
+          onChange={(e) => {
+            setDishFats(Number(e.target.value));
+          }}
+        />
+        <button onClick={addDish}>Додати страву</button>{" "}
+        {/*записать новые блюда в локал*/}
+      </div>
     </div>
   );
 };

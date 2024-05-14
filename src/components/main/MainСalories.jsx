@@ -84,14 +84,17 @@ const MainСalories = ({
             }
           ></div>
         </div>
-        <div className="circle__innerStats">
+        <div
+          className="circle__innerStats"
+          style={{ color: "white", fontSize: "18px" }}
+        >
           {personCalories > 2000 ? (
             <>
               <span style={{ fontSize: "32px" }}>
                 {-(2000 - personCalories)}
               </span>
 
-              <span>ккал наїв</span>
+              <span>ккал перевищення</span>
             </>
           ) : (
             <>
