@@ -99,7 +99,9 @@ const Dishes = ({ dishes, setDishes, meals, addMeal, deleteMeal }) => {
                 fontSize: "20px",
               }}
             >
-              <p style={{ marginRight: "5px" }}>{dish.name}</p>
+              <p style={{ marginRight: "5px", fontWeight: "700" }}>
+                {dish.name}
+              </p>
               <p style={{ marginRight: "5px" }}>{dish.calories}</p>
               <p style={{ marginRight: "5px" }}>{dish.carbohydrates}</p>
               <p style={{ marginRight: "5px" }}>{dish.protein}</p>
@@ -170,8 +172,22 @@ const Dishes = ({ dishes, setDishes, meals, addMeal, deleteMeal }) => {
             setDishFats(Number(e.target.value));
           }}
         />
-        <button onClick={addDish}>Додати страву</button>{" "}
-        {/*записать новые блюда в локал*/}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
+            style={{
+              marginTop: "15px",
+              padding: "7px 12px",
+              backgroundColor: "#ffa800",
+              borderRadius: "32px",
+              fontWeight: "500",
+              color: "white",
+            }}
+            onClick={addDish}
+          >
+            Додати страву до переліку
+          </button>{" "}
+          {/*записать новые блюда в локал*/}
+        </div>
       </div>
     </div>
   );

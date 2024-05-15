@@ -6,7 +6,11 @@ import DishesModal from "../components/UI/DishesModal/DishesModal";
 
 const Recipes = () => {
   const [posts, setPosts] = useState([
-    { id: 1, title: "Рецепт", body: "Description" },
+    {
+      id: 1,
+      title: "Вафлі",
+      body: "3 яйця, 2 ст.л. сметани, 200г творогу, дрібку солі, ложку розпушувача розмішати і залишити на 15.хв, розтопити вершкове масло, до суміші додати масло та 50 г борошна. Смажити на гарячій вафельниці до готовності.",
+    },
     { id: 2, title: "Рецепт1", body: "Description" },
     { id: 3, title: "Рецепт2", body: "Description" },
   ]);
@@ -38,9 +42,14 @@ const Recipes = () => {
       >
         Рецепти
       </h1>
-      <MyButton style={{ display: "flex" }} onClick={() => setModal(true)}>
-        Додати рецепт
-      </MyButton>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <MyButton
+          style={{ marginBottom: "30px" }}
+          onClick={() => setModal(true)}
+        >
+          Додати рецепт
+        </MyButton>
+      </div>
       <DishesModal visible={modal} setVisible={setModal}>
         <RecipesForm create={createPost} />
       </DishesModal>

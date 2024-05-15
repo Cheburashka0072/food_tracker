@@ -10,6 +10,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Calendar from "react-calendar";
 import MyButton from "../components/UI/button/MyButton";
 import "react-calendar/dist/Calendar.css";
+import { toast, Toaster } from "react-hot-toast";
 const Main = () => {
   const currDate = new Date();
   currDate.setHours(0);
@@ -293,9 +294,13 @@ const Main = () => {
       >
         <MyButton
           style={{ fontSize: "20px" }}
-          onClick={() => confirmStats(Date.parse(date))}
+          onClick={() => {
+            confirmStats(Date.parse(date));
+            toast.success("Дані збережено");
+          }}
         >
-          Confirm
+          Зберегти
+          <Toaster richColors />
         </MyButton>
       </div>
     </div>

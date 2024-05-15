@@ -21,9 +21,10 @@
 .post__title {
   margin-top: 15px;
   font-size: 25px;
+  font-weight: 700;
 }
 .post__subtitle {
-  font-size: 12px;
+  font-size: 20px;
   margin-top: 20px;
 }
 .post__keeper {

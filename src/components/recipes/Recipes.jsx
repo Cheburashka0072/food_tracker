@@ -2,6 +2,7 @@ import { useState } from "react";
 import MyButton from "../UI/button/MyButton";
 import MyInput from "../UI/input/MyInput";
 import "./recipes.css";
+import { toast, Toaster } from "react-hot-toast";
 
 const Recipes = (props) => {
   const [changedPost, setChangedPost] = useState({
@@ -23,7 +24,12 @@ const Recipes = (props) => {
         </div>
         <div className="post__subtitle">{props.post.body}</div>
         <div className="post__keeper">
-          <MyButton onClick={() => props.remove(props.post)}>Удалить</MyButton>
+          <MyButton
+            style={{ marginRight: "20px" }}
+            onClick={() => props.remove(props.post)}
+          >
+            Удалить
+          </MyButton>
           <MyButton onClick={() => setVisible(!visible)}>Изменить</MyButton>
         </div>
         {visible && (

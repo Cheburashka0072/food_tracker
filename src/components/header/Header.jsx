@@ -24,9 +24,6 @@ function Header() {
                 <Link to="/recipes">РЕЦЕПТИ</Link>
               </li>
               <li>
-                <a href="#!">УКР</a>
-              </li>
-              <li>
                 <a href="#!" className="header__nav-btn">
                   <img
                     className="header__nav-btn-img"
