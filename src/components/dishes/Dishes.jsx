@@ -47,21 +47,17 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                                             <p>{dish.name}</p>
                                             <p>{dish.calories}</p>
                                             <p>
-                                                {
-                                                    meal.dishes
-                                                        .filter(
-                                                            (mealDish) =>
-                                                                mealDish.name ===
-                                                                dish.name
-                                                        )
-                                                        .map(
-                                                            (dish) => dish.gram
-                                                        )
-                                                        .reduce(
-                                                            (prev, curr) =>
-                                                                prev + curr
-                                                        ) //reduce по граммовке
-                                                }
+                                                {meal.dishes
+                                                    .filter(
+                                                        (mealDish) =>
+                                                            mealDish.name ===
+                                                            dish.name
+                                                    )
+                                                    .map((dish) => dish.gram)
+                                                    .reduce(
+                                                        (prev, curr) =>
+                                                            prev + curr
+                                                    )}
                                             </p>
                                             <button
                                                 onClick={() =>
@@ -84,6 +80,31 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                     </div>
                 ))}
             <DishesModal visible={modal} setVisible={setModal}>
+                <div
+                    style={{
+                        display: "flex",
+                        marginBottom: "10px",
+                        fontSize: "20px",
+                        alignItems: "center",
+                    }}
+                >
+                    <p
+                        className="dish__name"
+                        style={{
+                            marginRight: "5px",
+                            fontWeight: "700",
+                        }}
+                    ></p>
+                    <p
+                        className="dish__attribute"
+                        style={{ fontWeight: "bold" }}
+                    >
+                        ккал
+                    </p>
+                    <p className="dish__attribute">вугл</p>
+                    <p className="dish__attribute">білки</p>
+                    <p className="dish__attribute">жири</p>
+                </div>
                 {dishes &&
                     dishes.map((dish) => (
                         <div
@@ -92,9 +113,11 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                                 display: "flex",
                                 marginBottom: "10px",
                                 fontSize: "20px",
+                                alignItems: "center",
                             }}
                         >
                             <p
+                                className="dish__name"
                                 style={{
                                     marginRight: "5px",
                                     fontWeight: "700",
@@ -102,14 +125,12 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                             >
                                 {dish.name}
                             </p>
-                            <p style={{ marginRight: "5px" }}>
-                                {dish.calories}
-                            </p>
-                            <p style={{ marginRight: "5px" }}>
+                            <p className="dish__attribute">{dish.calories}</p>
+                            <p className="dish__attribute">
                                 {dish.carbohydrates}
                             </p>
-                            <p style={{ marginRight: "5px" }}>{dish.protein}</p>
-                            <p style={{ marginRight: "40px" }}>{dish.fats}</p>
+                            <p className="dish__attribute">{dish.proteins}</p>
+                            <p className="dish__attribute">{dish.fats}</p>
                             <AddDishBtn
                                 selectedMeal={selectedMeal}
                                 dish={dish}

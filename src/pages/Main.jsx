@@ -12,6 +12,7 @@ import MyButton from "../components/UI/button/MyButton";
 import "react-calendar/dist/Calendar.css";
 import { toast, Toaster } from "react-hot-toast";
 import { AddDishes } from "../components/addDishes/AddDishes";
+import DishesModal from "../components/UI/DishesModal/DishesModal";
 const Main = () => {
     const currDate = new Date();
     currDate.setHours(0);
@@ -19,43 +20,87 @@ const Main = () => {
     currDate.setSeconds(0);
     currDate.setMilliseconds(0);
     const localStorageStats = localStorage.getItem("recordedStats");
-    const [dishes, setDishes] = useState([
-        {
-            name: "Колбаса",
-            calories: 300,
-            carbohydrates: 27,
-            proteins: 30,
-            fats: 15,
-        },
-        {
-            name: "Пюре",
-            calories: 400,
-            carbohydrates: 27,
-            proteins: 30,
-            fats: 15,
-        },
-        {
-            name: "Булка",
-            calories: 600,
-            carbohydrates: 27,
-            proteins: 30,
-            fats: 15,
-        },
-        {
-            name: "Сыр",
-            calories: 700,
-            carbohydrates: 27,
-            proteins: 30,
-            fats: 15,
-        },
-        {
-            name: "Сосиска",
-            calories: 800,
-            carbohydrates: 27,
-            proteins: 30,
-            fats: 15,
-        },
-    ]);
+    const localStorageDishes = localStorage.getItem("dishes");
+    if (!localStorageDishes)
+        localStorage.setItem(
+            "dishes",
+            JSON.stringify([
+                {
+                    name: "Колбаса",
+                    calories: 300,
+                    carbohydrates: 27,
+                    proteins: 30,
+                    fats: 15,
+                },
+                {
+                    name: "Пюре",
+                    calories: 400,
+                    carbohydrates: 27,
+                    proteins: 30,
+                    fats: 15,
+                },
+                {
+                    name: "Булка",
+                    calories: 600,
+                    carbohydrates: 27,
+                    proteins: 30,
+                    fats: 15,
+                },
+                {
+                    name: "Сыр",
+                    calories: 700,
+                    carbohydrates: 27,
+                    proteins: 30,
+                    fats: 15,
+                },
+                {
+                    name: "Сосиска",
+                    calories: 800,
+                    carbohydrates: 27,
+                    proteins: 30,
+                    fats: 15,
+                },
+            ])
+        );
+    const [dishes, setDishes] = useState(
+        JSON.parse(localStorageDishes) || [
+            {
+                name: "Колбаса",
+                calories: 300,
+                carbohydrates: 27,
+                proteins: 30,
+                fats: 15,
+            },
+            {
+                name: "Пюре",
+                calories: 400,
+                carbohydrates: 27,
+                proteins: 30,
+                fats: 15,
+            },
+            {
+                name: "Булка",
+                calories: 600,
+                carbohydrates: 27,
+                proteins: 30,
+                fats: 15,
+            },
+            {
+                name: "Сыр",
+                calories: 700,
+                carbohydrates: 27,
+                proteins: 30,
+                fats: 15,
+            },
+            {
+                name: "Сосиска",
+                calories: 800,
+                carbohydrates: 27,
+                proteins: 30,
+                fats: 15,
+            },
+        ]
+    );
 
     const [date, setDate] = useState(currDate);
     const [personStats, setPersonStats] = useState(
@@ -93,7 +138,8 @@ const Main = () => {
     ]);
     const [calendar, setCalendar] = useState(false);
     const [water, setWater] = useState(0);
-    console.log(personMeals);
+    const [addDishModal, setAddDishModal] = useState(false);
+
     const addMeal = (dish, mealType) => {
         setPersonMeals([...personMeals, { id: Date.now(), ...dish }]);
         const editedMeals = [...meals];
@@ -300,7 +346,34 @@ const Main = () => {
                 addMeal={addMeal}
                 deleteMeal={deleteMeal}
             />
-            <AddDishes dishes={dishes} setDishes={setDishes} />
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "20px",
+                }}
+            >
+                <button
+                    style={{
+                        marginTop: "15px",
+                        padding: "7px 12px",
+                        backgroundColor: "#ffa800",
+                        borderRadius: "32px",
+                        fontWeight: "500",
+                        color: "white",
+                    }}
+                    onClick={() => setAddDishModal(!addDishModal)}
+                >
+                    Додати страву
+                </button>
+            </div>
+            <DishesModal visible={addDishModal} setVisible={setAddDishModal}>
+                <AddDishes
+                    dishes={dishes}
+                    setDishes={setDishes}
+                    setAddDishModal={setAddDishModal}
+                />
+            </DishesModal>
             <Water cups={water} setCups={setWater} />
             <div
                 style={{
