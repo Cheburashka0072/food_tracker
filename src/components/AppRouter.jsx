@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { routes } from "../router/index";
+import { privateRoutes, publicRoutes } from "../router/index";
+import { ProfileContext } from "../context";
 
 const AppRouter = () => {
-  return (
-    <Routes>
-      {routes.map((route) => (
-        <Route key={route.path} path={route.path} element={route.element} />
-      ))}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-  );
+    const { profile } = useContext(ProfileContext);
+
+    return (
+        <Routes>
+            {profile
+                ? privateRoutes.map((route) => (
+                      <Route
+                          key={route.path}
+                          path={route.path}
+                          element={route.element}
+                      />
+                  ))
+                : publicRoutes.map((route) => (
+                      <Route
+                          key={route.path}
+                          path={route.path}
+                          element={route.element}
+                      />
+                  ))}
+            <Route path="*" element={<Navigate to="/profile" replace />} />
+        </Routes>
+    );
 };
 
 export default AppRouter;
