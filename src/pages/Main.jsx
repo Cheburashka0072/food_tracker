@@ -141,7 +141,8 @@ const Main = () => {
     const [addDishModal, setAddDishModal] = useState(false);
 
     const addMeal = (dish, mealType) => {
-        setPersonMeals([...personMeals, { id: Date.now(), ...dish }]);
+        const timestamp = Date.now();
+        setPersonMeals([...personMeals, { id: timestamp, ...dish }]);
         const editedMeals = [...meals];
         const mealIndex = editedMeals.findIndex(
             (meal) => meal.text === mealType
@@ -151,7 +152,7 @@ const Main = () => {
                 ...editedMeals[mealIndex],
                 dishes: [
                     ...editedMeals[mealIndex].dishes,
-                    { id: Date.now(), ...dish },
+                    { id: timestamp, ...dish },
                 ],
             };
             setMeals(editedMeals);
