@@ -259,7 +259,7 @@ const Main = () => {
         newPersonStats[indexOfStats].water = water;
         setPersonStats(newPersonStats);
         const statsToRecord = personStats.filter(
-            (stat) => stat.meals.length > 0 || stat.water > 0
+            (stat) => stat.personMeals.length > 0 || stat.water > 0
         );
         localStorage.setItem("recordedStats", JSON.stringify(statsToRecord));
     };
