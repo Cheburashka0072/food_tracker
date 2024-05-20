@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ProfileContext } from "../../context";
 
 export const StatsTable = ({ stats }) => {
+    const { profile } = useContext(ProfileContext);
     return (
         <div>
             <div className="table__row">
@@ -12,7 +14,16 @@ export const StatsTable = ({ stats }) => {
                 <div className="table__row-item">Вода (Л)</div>
             </div>
             {stats.map((stat) => (
-                <div className="table__row">
+                <div
+                    className="table__row"
+                    style={
+                        stat.personMeals
+                            .map((meal) => meal.calories)
+                            .reduce((prev, curr) => prev + curr) > profile.BMR
+                            ? { backgroundColor: "#ff675c" }
+                            : { backgroundColor: "#6cf56e" }
+                    }
+                >
                     <div className="table__row-item">
                         {new Date(stat.timestamp).toLocaleDateString("uk-UA", {
                             year: "numeric",

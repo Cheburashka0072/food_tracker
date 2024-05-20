@@ -6,23 +6,26 @@ import { ProfileContext } from "../context";
 const AppRouter = () => {
     const { profile } = useContext(ProfileContext);
 
-    return (
+    return profile ? (
         <Routes>
-            {profile
-                ? privateRoutes.map((route) => (
-                      <Route
-                          key={route.path}
-                          path={route.path}
-                          element={route.element}
-                      />
-                  ))
-                : publicRoutes.map((route) => (
-                      <Route
-                          key={route.path}
-                          path={route.path}
-                          element={route.element}
-                      />
-                  ))}
+            {privateRoutes.map((route) => (
+                <Route
+                    key={route.path}
+                    path={route.path}
+                    element={route.element}
+                />
+            ))}
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+    ) : (
+        <Routes>
+            {publicRoutes.map((route) => (
+                <Route
+                    key={route.path}
+                    path={route.path}
+                    element={route.element}
+                />
+            ))}
             <Route path="*" element={<Navigate to="/profile" replace />} />
         </Routes>
     );

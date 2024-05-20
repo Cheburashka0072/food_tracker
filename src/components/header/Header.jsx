@@ -21,17 +21,20 @@ function Header() {
                                     <Link to="/">ГОЛОВНА</Link>
                                 </li>
                                 <li>
-                                    <Link to="/statistics">СТАТИСТИКА </Link>
+                                    <Link to="/statistics">ЗВІТ</Link>
                                 </li>
                                 <li>
-                                    <div className="header__nav-btn">
+                                    <Link
+                                        className="header__nav-btn"
+                                        to="/profile"
+                                    >
                                         <img
                                             className="header__nav-btn-img"
                                             src={header_btnImg}
                                             alt=""
                                         />
                                         {profile.name}
-                                    </div>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

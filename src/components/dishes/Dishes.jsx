@@ -31,52 +31,78 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                                 </button>
                             </div>
                         </div>
-                        {meal.dishes &&
-                            dishes.map((dish, index) => (
-                                <div key={index}>
-                                    {meal.dishes.filter(
-                                        (mealDish) =>
-                                            mealDish.name === dish.name
-                                    ).length > 0 && (
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "space-around",
-                                            }}
-                                        >
-                                            <p>{dish.name}</p>
-                                            <p>{dish.calories}</p>
-                                            <p>
-                                                {meal.dishes
-                                                    .filter(
-                                                        (mealDish) =>
-                                                            mealDish.name ===
-                                                            dish.name
-                                                    )
-                                                    .map((dish) => dish.gram)
-                                                    .reduce(
-                                                        (prev, curr) =>
-                                                            prev + curr
-                                                    )}
-                                            </p>
-                                            <button
-                                                onClick={() =>
-                                                    deleteMeal(
-                                                        meal.dishes.filter(
+                        {meal.dishes && (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-around",
+                                        fontWeight: "bold",
+                                        marginBottom: "10px",
+                                    }}
+                                >
+                                    <p style={{ width: "20%" }}>Назва</p>
+                                    <p style={{ width: "20%" }}>Вага (г)</p>
+                                    <p style={{ width: "20%" }}></p>
+                                </div>
+                                {dishes.map((dish, index) => (
+                                    <div key={index}>
+                                        {meal.dishes.filter(
+                                            (mealDish) =>
+                                                mealDish.name === dish.name
+                                        ).length > 0 && (
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent:
+                                                        "space-around",
+                                                    marginBottom: "5px",
+                                                }}
+                                            >
+                                                <p style={{ width: "20%" }}>
+                                                    {dish.name}
+                                                </p>
+                                                <p style={{ width: "20%" }}>
+                                                    {meal.dishes
+                                                        .filter(
                                                             (mealDish) =>
                                                                 mealDish.name ===
                                                                 dish.name
-                                                        )[0],
-                                                        meal.text
-                                                    )
-                                                }
-                                            >
-                                                Удалить
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                                        )
+                                                        .map(
+                                                            (dish) => dish.gram
+                                                        )
+                                                        .reduce(
+                                                            (prev, curr) =>
+                                                                prev + curr
+                                                        )}
+                                                </p>
+                                                <button
+                                                    style={{ width: "20%" }}
+                                                    onClick={() =>
+                                                        deleteMeal(
+                                                            meal.dishes.filter(
+                                                                (mealDish) =>
+                                                                    mealDish.name ===
+                                                                    dish.name
+                                                            )[0],
+                                                            meal.text
+                                                        )
+                                                    }
+                                                >
+                                                    Удалить
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 ))}
             <DishesModal visible={modal} setVisible={setModal}>

@@ -44,13 +44,13 @@ const MainСalories = ({
                                 className="item_stats"
                             >
                                 <Scalebar
-                                    totalValue={(profile.BMR * 0.55) / 4}
+                                    totalValue={(profile.BMR * 0.4) / 4}
                                     currentValue={personCarbohydrates}
                                     barColor={"#f07575"}
                                 />
                                 <span style={{ paddingLeft: "20px" }}>
-                                    {personCarbohydrates}/
-                                    {((profile.BMR * 0.55) / 4).toFixed(0)}г
+                                    {personCarbohydrates.toFixed(2)}/
+                                    {((profile.BMR * 0.4) / 4).toFixed(0)}г
                                 </span>
                             </div>
                         </div>
@@ -61,13 +61,13 @@ const MainСalories = ({
                                 className="item_stats"
                             >
                                 <Scalebar
-                                    totalValue={profile.weight * 0.8}
+                                    totalValue={(profile.BMR * 0.3) / 4}
                                     currentValue={personProteins}
                                     barColor={"#939674"}
                                 />
                                 <span style={{ paddingLeft: "20px" }}>
-                                    {personProteins}/
-                                    {(profile.weight * 0.8).toFixed(0)}г
+                                    {personProteins.toFixed(2)}/
+                                    {((profile.BMR * 0.3) / 4).toFixed(0)}г
                                 </span>
                             </div>
                         </div>
@@ -78,13 +78,13 @@ const MainСalories = ({
                                 className="item_stats"
                             >
                                 <Scalebar
-                                    totalValue={(profile.BMR * 0.25) / 9}
+                                    totalValue={(profile.BMR * 0.3) / 9}
                                     currentValue={personFats}
                                     barColor={"#457FA0"}
                                 />
                                 <span style={{ paddingLeft: "20px" }}>
-                                    {personFats}/
-                                    {((profile.BMR * 0.25) / 9).toFixed(0)}г
+                                    {personFats.toFixed(2)}/
+                                    {((profile.BMR * 0.3) / 9).toFixed(0)}г
                                 </span>
                             </div>
                         </div>
