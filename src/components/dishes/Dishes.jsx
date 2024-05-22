@@ -4,8 +4,16 @@ import "./dishes.css";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import DishesModal from "../UI/DishesModal/DishesModal";
 import { AddDishBtn } from "./AddDishBtn";
+import { Filter } from "../UI/filter/Filter";
 
-const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
+const Dishes = ({
+    dishes,
+    searchedDishes,
+    setSearchedDishes,
+    meals,
+    addMeal,
+    deleteMeal,
+}) => {
     const [modal, setModal] = useState(false);
     const [selectedMeal, setSelectedMeal] = useState();
 
@@ -31,7 +39,8 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                                 </button>
                             </div>
                         </div>
-                        {meal.dishes && (
+
+                        {meal.dishes.length > 0 && (
                             <div
                                 style={{
                                     display: "flex",
@@ -114,6 +123,10 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                         alignItems: "center",
                     }}
                 >
+                    <Filter
+                        dishes={dishes}
+                        setSearchedDishes={setSearchedDishes}
+                    />
                     <p
                         className="dish__name"
                         style={{
@@ -131,8 +144,8 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                     <p className="dish__attribute">білки</p>
                     <p className="dish__attribute">жири</p>
                 </div>
-                {dishes &&
-                    dishes.map((dish) => (
+                {dishes && searchedDishes.length > 0 ? (
+                    searchedDishes.map((dish) => (
                         <div
                             key={dish.name}
                             style={{
@@ -163,7 +176,18 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                                 addMeal={addMeal}
                             />
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            padding: "30px 0",
+                        }}
+                    >
+                        Страву не знайдено
+                    </div>
+                )}
             </DishesModal>
         </div>
     );

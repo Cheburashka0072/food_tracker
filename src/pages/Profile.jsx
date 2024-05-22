@@ -197,7 +197,7 @@ const Profile = () => {
                         <p style={{ fontSize: "24px", marginBottom: "10px" }}>
                             Норма калорій:{" "}
                             <span style={{ fontWeight: "bold" }}>
-                                {profile.BMR}
+                                {profile.BMR.toFixed(0)}
                             </span>
                         </p>
                     </div>

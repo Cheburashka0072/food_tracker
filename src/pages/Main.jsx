@@ -101,6 +101,7 @@ const Main = () => {
             },
         ]
     );
+    const [searchedDishes, setSearchedDishes] = useState(dishes);
 
     const [date, setDate] = useState(currDate);
     const [personStats, setPersonStats] = useState(
@@ -138,7 +139,6 @@ const Main = () => {
     ]);
     const [calendar, setCalendar] = useState(false);
     const [water, setWater] = useState(0);
-    const [addDishModal, setAddDishModal] = useState(false);
 
     const addMeal = (dish, mealType) => {
         const timestamp = Date.now();
@@ -263,6 +263,7 @@ const Main = () => {
         );
         localStorage.setItem("recordedStats", JSON.stringify(statsToRecord));
     };
+    // записывать BRM пользователя
 
     useEffect(() => {
         checkPersonStats(Date.parse(date));
@@ -342,39 +343,14 @@ const Main = () => {
             )}
             <Dishes
                 dishes={dishes}
+                searchedDishes={searchedDishes}
+                setSearchedDishes={setSearchedDishes}
                 setDishes={setDishes}
                 meals={meals}
                 addMeal={addMeal}
                 deleteMeal={deleteMeal}
             />
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "20px",
-                }}
-            >
-                <button
-                    style={{
-                        marginTop: "15px",
-                        padding: "7px 12px",
-                        backgroundColor: "#ffa800",
-                        borderRadius: "32px",
-                        fontWeight: "500",
-                        color: "white",
-                    }}
-                    onClick={() => setAddDishModal(!addDishModal)}
-                >
-                    Додати страву
-                </button>
-            </div>
-            <DishesModal visible={addDishModal} setVisible={setAddDishModal}>
-                <AddDishes
-                    dishes={dishes}
-                    setDishes={setDishes}
-                    setAddDishModal={setAddDishModal}
-                />
-            </DishesModal>
+
             <Water cups={water} setCups={setWater} />
             <div
                 style={{

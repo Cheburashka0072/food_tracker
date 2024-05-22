@@ -24,6 +24,9 @@ function Header() {
                                     <Link to="/statistics">ЗВІТ</Link>
                                 </li>
                                 <li>
+                                    <Link to="/directory">ДОВІДНИК</Link>
+                                </li>
+                                <li>
                                     <Link
                                         className="header__nav-btn"
                                         to="/profile"

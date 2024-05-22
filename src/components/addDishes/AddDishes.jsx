@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./addDishes.css";
 import toast, { Toaster } from "react-hot-toast";
 
-export const AddDishes = ({ dishes, setDishes, setAddDishModal }) => {
+export const AddDishes = ({ dish, createDish }) => {
     const [dishName, setDishName] = useState("");
     const [dishCalories, setDishCalories] = useState(0);
     const [dishCarbohydrates, setDishCarbohydrates] = useState(0);
     const [dishProtein, setDishProtein] = useState(0);
     const [dishFats, setDishFats] = useState(0);
+    const [dishIndex, setDishIndex] = useState(null);
 
-    const addDish = () => {
-        const newDish = {
-            name: dishName,
-            calories: dishCalories,
-            carbohydrates: dishCarbohydrates,
-            proteins: dishProtein,
-            fats: dishFats,
-        };
-        const newDishArr = dishes;
-        newDishArr.push(newDish);
-        setDishes(newDishArr);
-        localStorage.setItem("dishes", JSON.stringify(newDishArr));
-        setAddDishModal(false);
-        setDishName("");
-        setDishCalories(0);
-        setDishCarbohydrates(0);
-        setDishProtein(0);
-        setDishFats(0);
-    };
+    useEffect(() => {
+        if (dish) {
+            setDishName(dish.name);
+            setDishCalories(dish.calories);
+            setDishCarbohydrates(dish.carbohydrates);
+            setDishProtein(dish.proteins);
+            setDishFats(dish.fats);
+            setDishIndex(dish.index);
+        } else {
+            setDishName("");
+            setDishCalories(0);
+            setDishCarbohydrates(0);
+            setDishProtein(0);
+            setDishFats(0);
+            setDishIndex(null);
+        }
+    }, [dish]);
+
     return (
         <div
             style={{
@@ -92,7 +92,16 @@ export const AddDishes = ({ dishes, setDishes, setAddDishModal }) => {
                         color: "white",
                     }}
                     onClick={() => {
-                        addDish();
+                        createDish(
+                            {
+                                name: dishName,
+                                calories: dishCalories,
+                                carbohydrates: dishCarbohydrates,
+                                proteins: dishProtein,
+                                fats: dishFats,
+                            },
+                            dish
+                        );
                         toast.success("Страву додано");
                     }}
                 >

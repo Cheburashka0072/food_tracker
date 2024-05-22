@@ -33,24 +33,32 @@ export const StatsChart = ({ stats }) => {
             })
         );
     const calories = stats.map((stat) =>
-        stat.personMeals
-            .map((meal) => meal.calories)
-            .reduce((prev, curr) => prev + curr)
+        stat.personMeals.length > 0
+            ? stat.personMeals
+                  .map((meal) => meal.calories)
+                  .reduce((prev, curr) => prev + curr)
+            : 0
     );
     const carbohydrates = stats.map((stat) =>
-        stat.personMeals
-            .map((meal) => meal.carbohydrates)
-            .reduce((prev, curr) => prev + curr)
+        stat.personMeals.length > 0
+            ? stat.personMeals
+                  .map((meal) => meal.carbohydrates)
+                  .reduce((prev, curr) => prev + curr)
+            : 0
     );
     const proteins = stats.map((stat) =>
-        stat.personMeals
-            .map((meal) => meal.proteins)
-            .reduce((prev, curr) => prev + curr)
+        stat.personMeals.length > 0
+            ? stat.personMeals
+                  .map((meal) => meal.proteins)
+                  .reduce((prev, curr) => prev + curr)
+            : 0
     );
     const fats = stats.map((stat) =>
-        stat.personMeals
-            .map((meal) => meal.fats)
-            .reduce((prev, curr) => prev + curr)
+        stat.personMeals.length > 0
+            ? stat.personMeals
+                  .map((meal) => meal.fats)
+                  .reduce((prev, curr) => prev + curr)
+            : 0
     );
     const options = {
         responsive: true,
