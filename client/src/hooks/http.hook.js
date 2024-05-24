@@ -19,9 +19,7 @@ export const useHttp = () => {
                     data: body,
                     headers,
                 });
-
                 const data = response.data;
-
                 if (!response.status.toString().startsWith("2")) {
                     throw new Error(data.message || "Something went wrong");
                 }
@@ -30,7 +28,7 @@ export const useHttp = () => {
                 return data;
             } catch (e) {
                 setLoading(false);
-                setError(e.message);
+                setError(e.response.data.message);
                 throw e;
             }
         },

@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
-import { ProfileContext } from "../context";
+import { AuthContext, ProfileContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import cat from "../img/profile/cat1.jpg";
 import MyButton from "../components/UI/button/MyButton";
 
 const Profile = () => {
-    const { profile, setProfile } = useContext(ProfileContext);
+    // const { profile, setProfile } = useContext(ProfileContext);
+    const { isAuth } = useContext(AuthContext);
     const [name, setName] = useState("");
     const [gender, setGender] = useState("male");
     const [height, setHeight] = useState("");
@@ -18,35 +19,35 @@ const Profile = () => {
         let BMR = 10 * weight + 6.25 * height - 5 * age;
         gender === "male" ? (BMR += 5) : (BMR -= 161);
         BMR *= activity;
-        setProfile({
-            name: name,
-            gender: gender,
-            height: Number(height),
-            weight: Number(weight),
-            age: Number(age),
-            activity: Number(activity),
-            BMR: BMR,
-        });
-        localStorage.setItem(
-            "profile",
-            JSON.stringify({
-                name: name,
-                gender: gender,
-                height: Number(height),
-                weight: Number(weight),
-                age: Number(age),
-                activity: Number(activity),
-                BMR: BMR,
-            })
-        );
+        // setProfile({
+        //     name: name,
+        //     gender: gender,
+        //     height: Number(height),
+        //     weight: Number(weight),
+        //     age: Number(age),
+        //     activity: Number(activity),
+        //     BMR: BMR,
+        // });
+        // localStorage.setItem(
+        //     "profile",
+        //     JSON.stringify({
+        //         name: name,
+        //         gender: gender,
+        //         height: Number(height),
+        //         weight: Number(weight),
+        //         age: Number(age),
+        //         activity: Number(activity),
+        //         BMR: BMR,
+        //     })
+        // );
         return navigate("/");
     };
 
     const deleteProfile = () => {
         localStorage.removeItem("profile");
-        setProfile(false);
+        // setProfile(false);
     };
-    return !profile ? (
+    return isAuth ? (
         <div
             style={{
                 display: "flex",
@@ -180,7 +181,7 @@ const Profile = () => {
                 alignItems: "center",
             }}
         >
-            <div style={{ width: "700px" }}>
+            {/* <div style={{ width: "700px" }}>
                 <div
                     style={{
                         display: "flex",
@@ -226,7 +227,7 @@ const Profile = () => {
             </div>
             <MyButton style={{ fontSize: "18px" }} onClick={deleteProfile}>
                 Видалити профіль
-            </MyButton>
+            </MyButton> */}
         </div>
     );
 };

@@ -3,10 +3,10 @@ import header_btnImg from "./../../img/header/header_btn.png";
 import "./header.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { ProfileContext } from "../../context";
+import { AuthContext, ProfileContext } from "../../context";
 
 function Header() {
-    const { profile } = useContext(ProfileContext);
+    const { token, isAuth } = useContext(AuthContext);
     return (
         <header className="header">
             <div className="container">
@@ -14,7 +14,7 @@ function Header() {
                     <div className="header__logo">
                         <img src={logoImg} alt="" />
                     </div>
-                    {profile && (
+                    {isAuth && (
                         <div className="header__nav">
                             <ul>
                                 <li>
@@ -36,7 +36,7 @@ function Header() {
                                             src={header_btnImg}
                                             alt=""
                                         />
-                                        {profile.name}
+                                        {token}
                                     </Link>
                                 </li>
                             </ul>

@@ -5,4 +5,4 @@ const schema = new Schema({
     profile: { type: Object, require: false },
     stats: [{ type: Types.ObjectId, ref: "Stat" }],
 });
-module.export = model("User", schema);
+module.exports = model("User", schema);
