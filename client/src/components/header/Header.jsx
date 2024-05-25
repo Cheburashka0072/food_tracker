@@ -36,7 +36,7 @@ function Header() {
                                             src={header_btnImg}
                                             alt=""
                                         />
-                                        {token}
+                                        Особистий кабінет
                                     </Link>
                                 </li>
                             </ul>

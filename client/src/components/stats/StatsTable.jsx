@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { ProfileContext } from "../../context";
 
-export const StatsTable = ({ stats }) => {
-    const { profile } = useContext(ProfileContext);
+export const StatsTable = ({ profile, stats }) => {
     return (
         <div>
             <div className="table__row">

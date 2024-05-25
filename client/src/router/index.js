@@ -7,7 +7,7 @@ import Auth from "../pages/Auth";
 export const privateRoutes = [
     {
         path: "/",
-        element: <Profile />,
+        element: <Main />,
     },
     {
         path: "/directory",

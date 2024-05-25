@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import MainСalories from "../components/main/MainСalories";
 import Dishes from "../components/dishes/Dishes";
 import Water from "../components/water/Water";
@@ -13,7 +13,10 @@ import "react-calendar/dist/Calendar.css";
 import { toast, Toaster } from "react-hot-toast";
 import { AddDishes } from "../components/addDishes/AddDishes";
 import DishesModal from "../components/UI/DishesModal/DishesModal";
+import { useHttp } from "../hooks/http.hook";
+import { AuthContext } from "../context";
 const Main = () => {
+    const { token } = useContext(AuthContext);
     const currDate = new Date();
     currDate.setHours(0);
     currDate.setMinutes(0);
@@ -269,9 +272,32 @@ const Main = () => {
         checkPersonStats(Date.parse(date));
     }, [date]);
 
-    return (
+    const [profile, setProfile] = useState(false);
+    const { request } = useHttp();
+    const loadProfile = useCallback(async () => {
+        try {
+            const response = await request(
+                "/api/profile/",
+                "GET",
+                {},
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            setProfile(...response);
+        } catch (e) {}
+    }, []);
+
+    useEffect(() => {
+        loadProfile();
+    }, [loadProfile]);
+
+    return !profile ? (
+        <h1>Loading</h1>
+    ) : (
         <div>
             <MainСalories
+                profile={profile}
                 personCalories={
                     personMeals && personMeals.length > 0
                         ? personMeals
@@ -373,5 +399,4 @@ const Main = () => {
         </div>
     );
 };
-
 export default Main;

@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "./mainCalories.css";
 import Scalebar from "../UI/bars/Scalebar";
-import { ProfileContext } from "../../context";
+import { AuthContext, ProfileContext } from "../../context";
+import { useHttp } from "../../hooks/http.hook";
 
 const MainСalories = ({
+    profile,
     personCalories,
     personCarbohydrates,
     personProteins,
     personFats,
 }) => {
-    const { profile } = useContext(ProfileContext);
     return (
         <div className="block">
             <div className="block__calories">
