@@ -4,6 +4,7 @@ import "./dishes.css";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import DishesModal from "../UI/DishesModal/DishesModal";
 import { AddDishBtn } from "./AddDishBtn";
+import { Filter } from "../UI/filter/Filter";
 
 const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
   const [modal, setModal] = useState(false);
@@ -46,7 +47,7 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                     marginBottom: "10px",
                   }}
                 >
-                  <p style={{ width: "40%" }}>Назва продукту</p>
+                  <p style={{ width: "20%" }}>Назва</p>
                   <p style={{ width: "20%" }}>Вага (г)</p>
                   <p style={{ width: "20%" }}></p>
                 </div>
@@ -62,7 +63,7 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                           marginBottom: "5px",
                         }}
                       >
-                        <p style={{ width: "40%" }}>{dish.name}</p>
+                        <p style={{ width: "20%" }}>{dish.name}</p>
                         <p style={{ width: "20%" }}>
                           {meal.dishes
                             .filter((mealDish) => mealDish.name === dish.name)
@@ -80,7 +81,7 @@ const Dishes = ({ dishes, meals, addMeal, deleteMeal }) => {
                             )
                           }
                         >
-                          Видалити
+                          Удалить
                         </button>
                       </div>
                     )}

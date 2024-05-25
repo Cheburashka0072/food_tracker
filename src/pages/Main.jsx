@@ -26,78 +26,78 @@ const Main = () => {
       "dishes",
       JSON.stringify([
         {
-          name: "Ковбаса варена",
-          calories: 170,
-          carbohydrates: 25,
-          proteins: 11,
-          fats: 25,
+          name: "Колбаса",
+          calories: 300,
+          carbohydrates: 27,
+          proteins: 30,
+          fats: 15,
         },
         {
-          name: "Авакадо",
-          calories: 208,
-          carbohydrates: 7.4,
-          proteins: 2,
-          fats: 20,
+          name: "Пюре",
+          calories: 400,
+          carbohydrates: 27,
+          proteins: 30,
+          fats: 15,
         },
         {
-          name: "Яблуко зелене",
-          calories: 69,
-          carbohydrates: 18.5,
-          proteins: 0.4,
-          fats: 0.2,
+          name: "Булка",
+          calories: 600,
+          carbohydrates: 27,
+          proteins: 30,
+          fats: 15,
         },
         {
-          name: "Сир",
-          calories: 219,
-          carbohydrates: 0.6,
-          proteins: 13.8,
-          fats: 18,
+          name: "Сыр",
+          calories: 700,
+          carbohydrates: 27,
+          proteins: 30,
+          fats: 15,
         },
         {
-          name: "Помідор",
-          calories: 3,
-          carbohydrates: 0.7,
-          proteins: 0.7,
-          fats: 0,
+          name: "Сосиска",
+          calories: 800,
+          carbohydrates: 27,
+          proteins: 30,
+          fats: 15,
         },
       ])
     );
   const [dishes, setDishes] = useState(
     JSON.parse(localStorageDishes) || [
       {
-        name: "Ковбаса варена",
-        calories: 170,
-        carbohydrates: 25,
-        proteins: 11,
-        fats: 25,
+        name: "Колбаса",
+        calories: 300,
+        carbohydrates: 27,
+        proteins: 30,
+        fats: 15,
       },
       {
-        name: "Авакадо",
-        calories: 208,
-        carbohydrates: 7.4,
-        proteins: 2,
-        fats: 20,
+        name: "Пюре",
+        calories: 400,
+        carbohydrates: 27,
+        proteins: 30,
+        fats: 15,
       },
       {
-        name: "Яблуко зелене",
-        calories: 69,
-        carbohydrates: 18.5,
-        proteins: 0.4,
-        fats: 0.2,
+        name: "Булка",
+        calories: 600,
+        carbohydrates: 27,
+        proteins: 30,
+        fats: 15,
       },
       {
-        name: "Сир",
-        calories: 219,
-        carbohydrates: 0.6,
-        proteins: 13.8,
-        fats: 18,
+        name: "Сыр",
+        calories: 700,
+        carbohydrates: 27,
+        proteins: 30,
+        fats: 15,
       },
       {
-        name: "Помідор",
-        calories: 3,
-        carbohydrates: 0.7,
-        proteins: 0.7,
-        fats: 0,
+        name: "Сосиска",
+        calories: 800,
+        carbohydrates: 27,
+        proteins: 30,
+        fats: 15,
       },
     ]
   );
@@ -350,7 +350,7 @@ const Main = () => {
           }}
           onClick={() => setAddDishModal(!addDishModal)}
         >
-          Додати продукт до довідника
+          Додати страву
         </button>
       </div>
       <DishesModal visible={addDishModal} setVisible={setAddDishModal}>

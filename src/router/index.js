@@ -1,5 +1,5 @@
 import Main from "../pages/Main";
-import Recipes from "../pages/Recipes";
+import DishDirectory from "../pages/DishDirectory";
 import Statistics from "../pages/Statistics";
 import Profile from "../pages/Profile";
 
@@ -9,8 +9,8 @@ export const privateRoutes = [
         element: <Main />,
     },
     {
-        path: "/recipes",
-        element: <Recipes />,
+        path: "/directory",
+        element: <DishDirectory />,
     },
     {
         path: "/statistics",

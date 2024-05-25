@@ -77,14 +77,13 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          Ім'я
+          ім'я
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             style={{ border: "1px solid #d9d9d9", margin: "10px" }}
             type="text"
-            maxLength="15ы"
-            placeholder="Введіть своє ім'я"
+            placeholder=""
           />
         </div>
         <div
@@ -94,7 +93,7 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          Пол
+          пол
           <select onChange={(e) => setGender(e.target.value)}>
             <option value="male">чоловік</option>
             <option value="female">жінка</option>
@@ -107,14 +106,13 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          Зріст
+          зріст
           <input
             value={height}
             onChange={(e) => setHeight(e.target.value.replace(/\D/g, ""))}
             style={{ border: "1px solid #d9d9d9", margin: "10px" }}
             type="text"
-            maxLength="3"
-            placeholder="Введіть свій зріст"
+            placeholder="..."
           />
         </div>
         <div
@@ -124,14 +122,13 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          Вага
+          вага
           <input
             value={weight}
             onChange={(e) => setWeight(e.target.value.replace(/\D/g, ""))}
             style={{ border: "1px solid #d9d9d9", margin: "10px" }}
             type="text"
-            maxLength="3"
-            placeholder="Введіть свою вагу"
+            placeholder="..."
           />
         </div>
         <div
@@ -141,17 +138,13 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          Вік
+          вік
           <input
             value={age}
             onChange={(e) => setAge(e.target.value.replace(/\D/g, ""))}
-            style={{
-              border: "1px solid #d9d9d9",
-              margin: "10px",
-            }}
+            style={{ border: "1px solid #d9d9d9", margin: "10px" }}
             type="text"
-            maxLength="2"
-            placeholder="Введіть свій вік"
+            placeholder="..."
           />
         </div>
         <div
@@ -161,7 +154,7 @@ const Profile = () => {
             alignItems: "center",
           }}
         >
-          Активність
+          активність
           <select onChange={(e) => setActivity(e.target.value)}>
             <option value={1.2}>Невелика</option>
             <option value={1.375}>Помірна</option>
@@ -170,17 +163,7 @@ const Profile = () => {
           </select>
         </div>
       </div>
-      <MyButton
-        onClick={() => {
-          confirmProfile();
-          setTimeout(function () {
-            toast.success("Профіль створено");
-          }, 100);
-        }}
-      >
-        Створити
-        <Toaster richColors />
-      </MyButton>
+      <MyButton onClick={() => confirmProfile()}>Створити</MyButton>
     </div>
   ) : (
     <div
@@ -230,17 +213,8 @@ const Profile = () => {
           Вага: {profile.weight}
         </p>
       </div>
-      <MyButton
-        style={{ fontSize: "18px" }}
-        onClick={() => {
-          deleteProfile();
-          setTimeout(function () {
-            toast.success("Профіль видалено");
-          }, 200);
-        }}
-      >
+      <MyButton style={{ fontSize: "18px" }} onClick={deleteProfile}>
         Видалити профіль
-        <Toaster richColors />
       </MyButton>
     </div>
   );
