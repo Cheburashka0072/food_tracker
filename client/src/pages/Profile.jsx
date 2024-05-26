@@ -6,6 +6,7 @@ import MyButton from "../components/UI/button/MyButton";
 import { useHttp } from "../hooks/http.hook";
 import { useMessage } from "../hooks/message.hook";
 import toast, { Toaster } from "react-hot-toast";
+import { CreateProfile } from "../components/profile/CreateProfile";
 
 const Profile = () => {
     const { isAuth, token, logout } = useContext(AuthContext);
@@ -73,152 +74,10 @@ const Profile = () => {
     ) : (
         <>
             {!profile ? (
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                >
-                    <h2
-                        style={{
-                            fontSize: "28px",
-                            marginBottom: "20px",
-                            fontWeight: "bold",
-                        }}
-                    >
-                        Створення профілю
-                    </h2>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            width: "500px",
-                            marginBottom: "20px",
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <label htmlFor="name">Ім'я</label>
-                            <input
-                                id="name"
-                                name="name"
-                                onChange={(e) => changeHandler(e)}
-                                style={{
-                                    border: "1px solid #d9d9d9",
-                                    margin: "10px",
-                                }}
-                                type="text"
-                                placeholder=""
-                            />
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <label htmlFor="gender">Пол</label>
-
-                            <select
-                                id="gender"
-                                name="gender"
-                                onChange={(e) => changeHandler(e)}
-                            >
-                                <option value="male">чоловік</option>
-                                <option value="female">жінка</option>
-                            </select>
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <label htmlFor="height">Зріст</label>
-                            <input
-                                id="height"
-                                name="height"
-                                onChange={(e) => changeHandler(e)}
-                                style={{
-                                    border: "1px solid #d9d9d9",
-                                    margin: "10px",
-                                }}
-                                type="text"
-                                placeholder="..."
-                            />
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <label htmlFor="weight">Вага</label>
-                            <input
-                                id="weight"
-                                name="weight"
-                                onChange={(e) => changeHandler(e)}
-                                style={{
-                                    border: "1px solid #d9d9d9",
-                                    margin: "10px",
-                                }}
-                                type="text"
-                                placeholder="..."
-                            />
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <label htmlFor="age"> Вік</label>
-                            <input
-                                id="age"
-                                name="age"
-                                onChange={(e) => changeHandler(e)}
-                                style={{
-                                    border: "1px solid #d9d9d9",
-                                    margin: "10px",
-                                }}
-                                type="text"
-                                placeholder="..."
-                            />
-                        </div>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <label htmlFor="activity">Активність</label>
-                            <select
-                                id="activity"
-                                name="activity"
-                                onChange={(e) => changeHandler(e)}
-                            >
-                                <option value={1.2}>Невелика</option>
-                                <option value={1.375}>Помірна</option>
-                                <option value={1.55}>Висока</option>
-                                <option value={1.725}>Дуже висока</option>
-                            </select>
-                        </div>
-                    </div>
-                    <MyButton onClick={() => confirmProfile()}>
-                        Створити
-                    </MyButton>
-                </div>
+                <CreateProfile
+                    changeHandler={changeHandler}
+                    confirmProfile={confirmProfile}
+                />
             ) : (
                 <div
                     style={{

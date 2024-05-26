@@ -4,10 +4,10 @@ import toast, { Toaster } from "react-hot-toast";
 
 export const AddDishes = ({ dish, createDish }) => {
     const [dishName, setDishName] = useState("");
-    const [dishCalories, setDishCalories] = useState(0);
-    const [dishCarbohydrates, setDishCarbohydrates] = useState(0);
-    const [dishProtein, setDishProtein] = useState(0);
-    const [dishFats, setDishFats] = useState(0);
+    const [dishCalories, setDishCalories] = useState("");
+    const [dishCarbohydrates, setDishCarbohydrates] = useState("");
+    const [dishProtein, setDishProtein] = useState("");
+    const [dishFats, setDishFats] = useState("");
     const [dishIndex, setDishIndex] = useState(null);
 
     useEffect(() => {
@@ -20,10 +20,10 @@ export const AddDishes = ({ dish, createDish }) => {
             setDishIndex(dish.index);
         } else {
             setDishName("");
-            setDishCalories(0);
-            setDishCarbohydrates(0);
-            setDishProtein(0);
-            setDishFats(0);
+            setDishCalories("");
+            setDishCarbohydrates("");
+            setDishProtein("");
+            setDishFats("");
             setDishIndex(null);
         }
     }, [dish]);
@@ -35,52 +35,84 @@ export const AddDishes = ({ dish, createDish }) => {
                 flexDirection: "column",
             }}
         >
-            <h2 className="add__header">Додавання страви</h2>
+            <h2 className="add__header">Додавання продукту</h2>
             <input
                 className="add__input"
                 type="text"
                 value={dishName}
-                placeholder="Назва страви"
+                placeholder="Назва продукту"
                 onChange={(e) => {
                     setDishName(e.target.value);
                 }}
             />
-            <input
-                className="add__input"
-                type="text"
-                value={dishCalories}
-                placeholder="Кількість калорій"
-                onChange={(e) => {
-                    setDishCalories(Number(e.target.value));
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
                 }}
-            />
-            <input
-                className="add__input"
-                type="text"
-                value={dishCarbohydrates}
-                placeholder="Кількість вуглеводів"
-                onChange={(e) => {
-                    setDishCarbohydrates(Number(e.target.value));
+            >
+                <input
+                    className="add__input"
+                    type="text"
+                    value={dishCalories}
+                    placeholder="Кількість калорій"
+                    onChange={(e) => {
+                        setDishCalories(Number(e.target.value));
+                    }}
+                />
+                <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
                 }}
-            />
-            <input
-                className="add__input"
-                type="text"
-                value={dishProtein}
-                placeholder="Кількість білків"
-                onChange={(e) => {
-                    setDishProtein(Number(e.target.value));
+            >
+                <input
+                    className="add__input"
+                    type="text"
+                    value={dishCarbohydrates}
+                    placeholder="Кількість вуглеводів"
+                    onChange={(e) => {
+                        setDishCarbohydrates(Number(e.target.value));
+                    }}
+                />
+                <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
                 }}
-            />
-            <input
-                className="add__input"
-                type="text"
-                value={dishFats}
-                placeholder="Кількість жирів"
-                onChange={(e) => {
-                    setDishFats(Number(e.target.value));
+            >
+                <input
+                    className="add__input"
+                    type="text"
+                    value={dishProtein}
+                    placeholder="Кількість білків"
+                    onChange={(e) => {
+                        setDishProtein(Number(e.target.value));
+                    }}
+                />
+                <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
                 }}
-            />
+            >
+                <input
+                    className="add__input"
+                    type="text"
+                    value={dishFats}
+                    placeholder="Кількість жирів"
+                    onChange={(e) => {
+                        setDishFats(Number(e.target.value));
+                    }}
+                />
+                <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
+            </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                     style={{
@@ -105,7 +137,7 @@ export const AddDishes = ({ dish, createDish }) => {
                         toast.success("Страву додано");
                     }}
                 >
-                    Додати страву до переліку
+                    Додати продукт до довідника
                     <Toaster richColors />
                 </button>
             </div>

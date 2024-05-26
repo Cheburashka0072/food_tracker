@@ -55,7 +55,9 @@ const Dishes = ({
                                         marginBottom: "10px",
                                     }}
                                 >
-                                    <p style={{ width: "20%" }}>Назва</p>
+                                    <p style={{ width: "20%" }}>
+                                        Назва продукту
+                                    </p>
                                     <p style={{ width: "20%" }}>Вага (г)</p>
                                     <p style={{ width: "20%" }}></p>
                                 </div>
@@ -104,7 +106,7 @@ const Dishes = ({
                                                         )
                                                     }
                                                 >
-                                                    Удалить
+                                                    Видалити
                                                 </button>
                                             </div>
                                         )}
@@ -124,16 +126,15 @@ const Dishes = ({
                     }}
                 >
                     <Filter
-                        dishes={dishes}
-                        setSearchedDishes={setSearchedDishes}
-                    />
-                    <p
                         className="dish__name"
                         style={{
                             marginRight: "5px",
                             fontWeight: "700",
                         }}
-                    ></p>
+                        dishes={dishes}
+                        setSearchedDishes={setSearchedDishes}
+                    />
+
                     <p
                         className="dish__attribute"
                         style={{ fontWeight: "bold" }}

@@ -53,7 +53,7 @@ const DishDirectory = () => {
                         setVisible(!visible);
                     }}
                 >
-                    Додати страву
+                    Додати продукт
                 </button>
             </div>
 

@@ -1,0 +1,39 @@
+.auth {
+    display: flex;
+}
+.auth__header {
+    background-color: #ffa800;
+    padding: 10px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+.auth__form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+}
+.auth__field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.auth__field input {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+}
+.auth__field label {
+    margin: 0 0 0 10px;
+}
+
+.auth__buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 0 20px 0;
+}
