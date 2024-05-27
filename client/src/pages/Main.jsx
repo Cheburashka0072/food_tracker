@@ -260,11 +260,25 @@ const Main = () => {
         newPersonStats[indexOfStats].personMeals = personMeals;
         newPersonStats[indexOfStats].meals = meals;
         newPersonStats[indexOfStats].water = water;
+        addStat(newPersonStats, indexOfStats);
         setPersonStats(newPersonStats);
         const statsToRecord = personStats.filter(
             (stat) => stat.personMeals.length > 0 || stat.water > 0
         );
         localStorage.setItem("recordedStats", JSON.stringify(statsToRecord));
+    };
+    const addStat = async (newPersonStats, indexOfStats) => {
+        try {
+            console.log(newPersonStats[indexOfStats]);
+            await request(
+                "/api/stat/manipulate",
+                "POST",
+                {
+                    ...newPersonStats[indexOfStats],
+                },
+                { Authorization: `Bearer: ${token}` }
+            );
+        } catch (e) {}
     };
     // записывать BRM пользователя
 
@@ -287,10 +301,24 @@ const Main = () => {
             setProfile(...response);
         } catch (e) {}
     }, []);
+    const loadStats = useCallback(async () => {
+        try {
+            const response = await request(
+                "/api/stat/",
+                "GET",
+                {},
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            console.log(response);
+        } catch (e) {}
+    }, []);
 
     useEffect(() => {
         loadProfile();
-    }, [loadProfile]);
+        loadStats();
+    }, [loadProfile, loadStats]);
 
     return !profile ? (
         <h1>Loading</h1>
@@ -393,9 +421,9 @@ const Main = () => {
                     }}
                 >
                     Зберегти
-                    <Toaster richColors />
                 </MyButton>
             </div>
+            <Toaster richColors />
         </div>
     );
 };
