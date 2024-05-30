@@ -11,7 +11,7 @@ import { CreateProfile } from "../components/profile/CreateProfile";
 const Profile = () => {
     const { isAuth, token, logout } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { loading, request } = useHttp();
+    const { loading, request, error, clearError } = useHttp();
     const message = useMessage();
     const [form, setForm] = useState({
         name: "",
@@ -68,10 +68,14 @@ const Profile = () => {
     useEffect(() => {
         loadProfile();
     }, [loadProfile]);
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
 
-    return loading ? (
-        <h1>loading</h1>
-    ) : (
+    if (loading) return <h1>loading</h1>;
+    if (error) return <h1>{error}</h1>;
+
+    return (
         <>
             {!profile ? (
                 <CreateProfile

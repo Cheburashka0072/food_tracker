@@ -22,7 +22,6 @@ const Main = () => {
     currDate.setMinutes(0);
     currDate.setSeconds(0);
     currDate.setMilliseconds(0);
-    const localStorageStats = localStorage.getItem("recordedStats");
     const localStorageDishes = localStorage.getItem("dishes");
     if (!localStorageDishes)
         localStorage.setItem(
@@ -107,16 +106,14 @@ const Main = () => {
     const [searchedDishes, setSearchedDishes] = useState(dishes);
 
     const [date, setDate] = useState(currDate);
-    const [personStats, setPersonStats] = useState(
-        JSON.parse(localStorageStats) || [
-            {
-                timestamp: Date.parse(date),
-                personMeals: [],
-                meals: [],
-                water: 0,
-            },
-        ]
-    );
+    const [personStats, setPersonStats] = useState([
+        {
+            timestamp: Date.parse(date),
+            personMeals: [],
+            meals: [],
+            water: 0,
+        },
+    ]);
     const [personMeals, setPersonMeals] = useState([]);
     const [meals, setMeals] = useState([
         {
@@ -275,6 +272,7 @@ const Main = () => {
                 "POST",
                 {
                     ...newPersonStats[indexOfStats],
+                    BMR: profile.BMR,
                 },
                 { Authorization: `Bearer: ${token}` }
             );
@@ -282,12 +280,8 @@ const Main = () => {
     };
     // записывать BRM пользователя
 
-    useEffect(() => {
-        checkPersonStats(Date.parse(date));
-    }, [date]);
-
     const [profile, setProfile] = useState(false);
-    const { request } = useHttp();
+    const { loading, request, error, clearError } = useHttp();
     const loadProfile = useCallback(async () => {
         try {
             const response = await request(
@@ -311,120 +305,130 @@ const Main = () => {
                     Authorization: `Bearer: ${token}`,
                 }
             );
-            console.log(response);
+            if (response.length > 0) setPersonStats(response);
         } catch (e) {}
     }, []);
 
     useEffect(() => {
+        checkPersonStats(Date.parse(date));
+    }, [date, personStats]);
+    useEffect(() => {
         loadProfile();
         loadStats();
     }, [loadProfile, loadStats]);
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
 
-    return !profile ? (
-        <h1>Loading</h1>
-    ) : (
-        <div>
-            <MainСalories
-                profile={profile}
-                personCalories={
-                    personMeals && personMeals.length > 0
-                        ? personMeals
-                              .map((meal) => meal.calories)
-                              .reduce((prev, curr) => prev + curr)
-                        : 0
-                }
-                personCarbohydrates={
-                    personMeals && personMeals.length > 0
-                        ? personMeals
-                              .map((meal) => meal.carbohydrates)
-                              .reduce((prev, curr) => prev + curr)
-                        : 0
-                }
-                personProteins={
-                    personMeals && personMeals.length > 0
-                        ? personMeals
-                              .map((meal) => meal.proteins)
-                              .reduce((prev, curr) => prev + curr)
-                        : 0
-                }
-                personFats={
-                    personMeals && personMeals.length > 0
-                        ? personMeals
-                              .map((meal) => meal.fats)
-                              .reduce((prev, curr) => prev + curr)
-                        : 0
-                }
-            />
-            <div className="block_data">
-                <button
-                    onClick={() => {
-                        setDate(new Date(Date.parse(date) - 86400000));
-                    }}
-                >
-                    <ChevronLeftIcon className="arrow" />
-                </button>
-                <button
-                    className="btn_data"
-                    onClick={() => setCalendar(!calendar)}
-                >
-                    {date.toLocaleDateString("uk-UA", {
-                        month: "long",
-                        day: "numeric",
-                    })}
-                </button>
-                <button
-                    onClick={() => {
-                        setDate(new Date(Date.parse(date) + 86400000));
-                    }}
-                >
-                    <ChevronRightIcon className="arrow" />
-                </button>
-            </div>
-            {calendar && (
+    if (loading) return <h1>Loading</h1>;
+
+    if (error) return <h1>{error}</h1>;
+
+    if (!profile) return <h1>Спочатку створіть профіль!</h1>;
+    else
+        return (
+            <div>
+                <MainСalories
+                    profile={profile}
+                    personCalories={
+                        personMeals && personMeals.length > 0
+                            ? personMeals
+                                  .map((meal) => meal.calories)
+                                  .reduce((prev, curr) => prev + curr)
+                            : 0
+                    }
+                    personCarbohydrates={
+                        personMeals && personMeals.length > 0
+                            ? personMeals
+                                  .map((meal) => meal.carbohydrates)
+                                  .reduce((prev, curr) => prev + curr)
+                            : 0
+                    }
+                    personProteins={
+                        personMeals && personMeals.length > 0
+                            ? personMeals
+                                  .map((meal) => meal.proteins)
+                                  .reduce((prev, curr) => prev + curr)
+                            : 0
+                    }
+                    personFats={
+                        personMeals && personMeals.length > 0
+                            ? personMeals
+                                  .map((meal) => meal.fats)
+                                  .reduce((prev, curr) => prev + curr)
+                            : 0
+                    }
+                />
+                <div className="block_data">
+                    <button
+                        onClick={() => {
+                            setDate(new Date(Date.parse(date) - 86400000));
+                        }}
+                    >
+                        <ChevronLeftIcon className="arrow" />
+                    </button>
+                    <button
+                        className="btn_data"
+                        onClick={() => setCalendar(!calendar)}
+                    >
+                        {date.toLocaleDateString("uk-UA", {
+                            month: "long",
+                            day: "numeric",
+                        })}
+                    </button>
+                    <button
+                        onClick={() => {
+                            setDate(new Date(Date.parse(date) + 86400000));
+                        }}
+                    >
+                        <ChevronRightIcon className="arrow" />
+                    </button>
+                </div>
+                {calendar && (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "20px",
+                        }}
+                    >
+                        <Calendar
+                            value={Date.parse(date)}
+                            onChange={setDate}
+                            locale="uk-UA"
+                        />
+                    </div>
+                )}
+                <Dishes
+                    dishes={dishes}
+                    searchedDishes={searchedDishes}
+                    setSearchedDishes={setSearchedDishes}
+                    setDishes={setDishes}
+                    meals={meals}
+                    addMeal={addMeal}
+                    deleteMeal={deleteMeal}
+                />
+
+                <Water cups={water} setCups={setWater} />
                 <div
                     style={{
                         display: "flex",
                         justifyContent: "center",
-                        marginTop: "20px",
+                        marginBottom: "20px",
                     }}
                 >
-                    <Calendar
-                        value={Date.parse(date)}
-                        onChange={setDate}
-                        locale="uk-UA"
-                    />
+                    <MyButton
+                        style={{ fontSize: "20px" }}
+                        onClick={() => {
+                            confirmStats(Date.parse(date));
+                            toast.success("Дані збережено");
+                        }}
+                    >
+                        Зберегти
+                    </MyButton>
                 </div>
-            )}
-            <Dishes
-                dishes={dishes}
-                searchedDishes={searchedDishes}
-                setSearchedDishes={setSearchedDishes}
-                setDishes={setDishes}
-                meals={meals}
-                addMeal={addMeal}
-                deleteMeal={deleteMeal}
-            />
-
-            <Water cups={water} setCups={setWater} />
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "20px",
-                }}
-            >
-                <MyButton
-                    style={{ fontSize: "20px" }}
-                    onClick={() => {
-                        confirmStats(Date.parse(date));
-                        toast.success("Дані збережено");
-                    }}
-                >
-                    Зберегти
-                </MyButton>
+                <Toaster richColors />
             </div>
-            <Toaster richColors />
-        </div>
-    );
+        );
 };
 export default Main;

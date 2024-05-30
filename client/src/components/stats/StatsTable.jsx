@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { ProfileContext } from "../../context";
 
-export const StatsTable = ({ profile, stats }) => {
+export const StatsTable = ({ stats }) => {
     return (
         <div>
             <div className="table__row">
                 <div className="table__row-item">Дата</div>
+                <div className="table__row-item">Норма</div>
                 <div className="table__row-item">Калорії</div>
                 <div className="table__row-item">Вуглеводи (г)</div>
                 <div className="table__row-item">Білки (г)</div>
@@ -24,9 +25,9 @@ export const StatsTable = ({ profile, stats }) => {
                                 stat.personMeals
                                     .map((meal) => meal.calories)
                                     .reduce((prev, curr) => prev + curr) >
-                                    profile.BMR
+                                    stat.BMR
                                     ? { backgroundColor: "#ff675c" }
-                                    : { backgroundColor: "#6cf56e" }
+                                    : {}
                             }
                         >
                             <div className="table__row-item">
@@ -40,6 +41,9 @@ export const StatsTable = ({ profile, stats }) => {
                                 )}
                             </div>
 
+                            <div className="table__row-item">
+                                {stat.BMR.toFixed(0)}
+                            </div>
                             <div className="table__row-item">
                                 {stat.personMeals.length > 0
                                     ? stat.personMeals
