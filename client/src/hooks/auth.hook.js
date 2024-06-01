@@ -1,10 +1,14 @@
 import { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const storageName = "userData";
 
 export const useAuth = () => {
     const [token, setToken] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [ready, setReady] = useState(false);
+
+    const navigate = useNavigate();
 
     const login = useCallback((jwtToken, id) => {
         setToken(jwtToken);
@@ -28,7 +32,11 @@ export const useAuth = () => {
         const data = JSON.parse(localStorage.getItem(storageName));
         if (data && data.token) {
             login(data.token, data.userId);
+        } else {
+            logout();
+            navigate("/auth");
         }
+        setReady(true);
     }, [login]);
-    return { login, logout, token, userId };
+    return { login, logout, token, userId, ready };
 };

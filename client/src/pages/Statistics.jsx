@@ -6,6 +6,7 @@ import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import MyButton from "../components/UI/button/MyButton";
 
 const Statistics = () => {
     const { token } = useContext(AuthContext);
@@ -76,12 +77,12 @@ const Statistics = () => {
     else
         return (
             <div>
-                <button
+                <MyButton
                     style={{ position: "relative" }}
                     onClick={() => setShowSearch(!showSearch)}
                 >
                     Пошук за певними датами
-                </button>
+                </MyButton>
                 {showSearch && (
                     <div
                         style={{
@@ -89,8 +90,8 @@ const Statistics = () => {
                             flexDirection: "column",
 
                             position: "absolute",
-                            width: "80%",
-                            background: "#d9d9d994",
+                            background: "#ffffffc7",
+                            border: "2px solid #ffa800",
                             padding: "10px",
                             borderRadius: "10px",
                         }}
@@ -101,27 +102,54 @@ const Statistics = () => {
                                 justifyContent: "space-around",
                             }}
                         >
-                            <Calendar
-                                value={from}
-                                onChange={(value) => setFrom(Date.parse(value))}
-                                locale="uk-UA"
-                            />
-                            <Calendar
-                                value={to}
-                                onChange={(value) => setTo(Date.parse(value))}
-                                locale="uk-UA"
-                            />
+                            <div style={{ marginRight: "20px" }}>
+                                <h2
+                                    style={{
+                                        fontSize: "22px",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Від
+                                </h2>
+                                <Calendar
+                                    value={from}
+                                    onChange={(value) =>
+                                        setFrom(Date.parse(value))
+                                    }
+                                    locale="uk-UA"
+                                />
+                            </div>
+                            <div>
+                                <h2
+                                    style={{
+                                        fontSize: "22px",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    До
+                                </h2>
+                                <Calendar
+                                    value={to}
+                                    onChange={(value) =>
+                                        setTo(Date.parse(value))
+                                    }
+                                    locale="uk-UA"
+                                />
+                            </div>
                         </div>
                         <div
                             style={{
                                 display: "flex",
-                                justifyContent: "space-around",
+                                justifyContent: "flex-end",
                             }}
                         >
-                            <button onClick={() => filterStats(from, to)}>
+                            <MyButton
+                                style={{ marginRight: "20px" }}
+                                onClick={() => filterStats(from, to)}
+                            >
                                 Пошук
-                            </button>
-                            <button
+                            </MyButton>
+                            <MyButton
                                 onClick={() => {
                                     setFrom(0);
                                     setTo(new Date());
@@ -129,7 +157,7 @@ const Statistics = () => {
                                 }}
                             >
                                 Скинути
-                            </button>
+                            </MyButton>
                         </div>
                     </div>
                 )}

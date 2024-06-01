@@ -18,6 +18,22 @@ router.post("/create", auth, async (req, res) => {
     }
 });
 
+router.put("/edit", auth, async (req, res) => {
+    try {
+        await Profile.findOneAndUpdate(
+            {
+                owner: req.user.userId,
+            },
+            { ...req.body }
+        );
+        res.status(201).json({ message: "Профіль успішно оновлено" });
+    } catch (e) {
+        res.status(500).json({
+            message: "Something went wrong, try again",
+        });
+    }
+});
+
 router.get("/", auth, async (req, res) => {
     try {
         const profile = await Profile.find({ owner: req.user.userId });

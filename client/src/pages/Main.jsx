@@ -278,7 +278,6 @@ const Main = () => {
             );
         } catch (e) {}
     };
-    // записывать BRM пользователя
 
     const [profile, setProfile] = useState(false);
     const { loading, request, error, clearError } = useHttp();

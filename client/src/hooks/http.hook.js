@@ -18,7 +18,11 @@ export const useHttp = () => {
                     url,
                     data: body,
                     headers,
+                }).catch((e) => {
+                    if (e.response.status === 401)
+                        localStorage.removeItem("userData");
                 });
+
                 const data = response.data;
                 if (!response.status.toString().startsWith("2")) {
                     throw new Error(data.message || "Something went wrong");
@@ -29,6 +33,7 @@ export const useHttp = () => {
             } catch (e) {
                 setLoading(false);
                 setError(e.response.data.message);
+
                 throw e;
             }
         },
