@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import "./addDishes.css";
+import React, { useEffect, useState } from "react";
+import "./editDishes.css";
 
-export const AddDishes = ({ dish, createDish }) => {
+export const EditDishes = ({ dish, editDish }) => {
     const [form, setForm] = useState({
-        name: "",
-        calories: "",
-        carbohydrates: "",
-        proteins: "",
-        fats: "",
+        ...dish,
     });
-
     const changeHandler = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
+
+    useEffect(() => {
+        setForm({ ...dish });
+    }, [dish]);
 
     return (
         <div
@@ -21,7 +20,7 @@ export const AddDishes = ({ dish, createDish }) => {
                 flexDirection: "column",
             }}
         >
-            <h2 className="add__header">Додавання продукту</h2>
+            <h2 className="add__header">Редагування продукту</h2>
             <input
                 id="name"
                 name="name"
@@ -110,17 +109,10 @@ export const AddDishes = ({ dish, createDish }) => {
                         color: "white",
                     }}
                     onClick={() => {
-                        createDish(form);
-                        setForm({
-                            name: "",
-                            calories: "",
-                            carbohydrates: "",
-                            proteins: "",
-                            fats: "",
-                        });
+                        editDish(form);
                     }}
                 >
-                    Додати продукт до довідника
+                    Змінити дані продукту
                 </button>
             </div>
         </div>

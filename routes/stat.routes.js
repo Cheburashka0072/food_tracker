@@ -7,7 +7,6 @@ router.post("/manipulate", auth, async (req, res) => {
     try {
         const { personMeals, water, timestamp } = req.body;
 
-        // Delete the stat if no meals and water is zero
         if (personMeals.length === 0 && water === 0) {
             const deletedStat = await Stat.findOneAndDelete({ timestamp });
             if (deletedStat) {

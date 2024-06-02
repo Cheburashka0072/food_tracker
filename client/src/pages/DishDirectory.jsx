@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import RecipesForm from "../components/recipes/RecipesForm";
 import RecipesList from "../components/recipes/RecipesList";
 import MyButton from "../components/UI/button/MyButton";
@@ -6,29 +6,101 @@ import DishesModal from "../components/UI/DishesModal/DishesModal";
 import { AddDishes } from "../components/addDishes/AddDishes";
 import "../components/stats/stats.css";
 import { Filter } from "../components/UI/filter/Filter";
+import { useHttp } from "../hooks/http.hook";
+import { AuthContext } from "../context";
+import { useMessage } from "../hooks/message.hook";
+import toast, { Toaster } from "react-hot-toast";
+import { EditDishes } from "../components/editDishes/EditDishes";
 
 const DishDirectory = () => {
-    const [dishes, setDishes] = useState(
-        JSON.parse(localStorage.getItem("dishes")) || []
-    );
-    const [searchedDishes, setSearchedDishes] = useState(dishes);
-    const [visible, setVisible] = useState(false);
+    const { token } = useContext(AuthContext);
+    const { loading, request, error, clearError } = useHttp();
+    const message = useMessage();
 
-    const createDish = (dish, currDish) => {
-        const newdishes = [...dishes];
-        if (selectedDish) {
-            const index = dishes
-                .map((dish) => dish.name)
-                .indexOf(currDish.name);
-            newdishes[index] = dish;
-            setDishes(newdishes);
-        } else setDishes([...dishes, dish]);
-        setVisible(false);
-    };
+    const [dishes, setDishes] = useState([]);
+    const [searchedDishes, setSearchedDishes] = useState(dishes);
+    const [createVisible, setCreateVisible] = useState(false);
+    const [editVisible, setEditVisible] = useState(false);
+
     const [selectedDish, setSelectedDish] = useState(false);
-    const removeDish = (dish) => {
-        setDishes(dishes.filter((d) => d.name !== dish.name));
+
+    const loadDishes = useCallback(async () => {
+        try {
+            const response = await request(
+                "/api/dish/",
+                "GET",
+                {},
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            if (response.length > 0) setDishes(response);
+        } catch (e) {}
+    }, []);
+
+    const createDish = useCallback(async (form) => {
+        try {
+            await request(
+                "/api/dish/create",
+                "POST",
+                {
+                    name: form.name,
+                    calories: Number(form.calories),
+                    carbohydrates: Number(form.carbohydrates),
+                    proteins: Number(form.proteins),
+                    fats: Number(form.fats),
+                },
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            message("Страву успішно додано!", toast.success);
+            loadDishes();
+            setCreateVisible(false);
+        } catch (e) {}
+    }, []);
+    const deleteDish = useCallback(async (dish) => {
+        try {
+            await request(
+                "/api/dish/delete",
+                "POST",
+                { ...dish },
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            message("Страву успішно видалено!", toast.success);
+            loadDishes();
+        } catch (e) {}
+    }, []);
+    const editDish = async (form) => {
+        try {
+            await request(
+                "/api/dish/edit",
+                "PUT",
+                {
+                    _id: form._id,
+                    name: form.name,
+                    calories: Number(form.calories),
+                    carbohydrates: Number(form.carbohydrates),
+                    proteins: Number(form.proteins),
+                    fats: Number(form.fats),
+                },
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            message("Страву успішно додано!", toast.success);
+            loadDishes();
+            setEditVisible(false);
+        } catch (e) {}
     };
+
+    useEffect(() => {
+        loadDishes();
+    }, [loadDishes]);
+
+    console.log(searchedDishes);
 
     return (
         <div>
@@ -50,7 +122,7 @@ const DishDirectory = () => {
                     }}
                     onClick={() => {
                         setSelectedDish(false);
-                        setVisible(!visible);
+                        setCreateVisible(!createVisible);
                     }}
                 >
                     Додати продукт
@@ -101,15 +173,15 @@ const DishDirectory = () => {
                             <button
                                 className="table__row-item"
                                 onClick={() => {
-                                    setVisible(!visible);
-                                    setSelectedDish({ index: index, ...dish });
+                                    setEditVisible(!editVisible);
+                                    setSelectedDish(dish);
                                 }}
                             >
                                 Змінити
                             </button>
                             <button
                                 className="table__row-item"
-                                onClick={() => removeDish(dish)}
+                                onClick={() => deleteDish(dish)}
                             >
                                 X
                             </button>
@@ -124,13 +196,17 @@ const DishDirectory = () => {
                             border: "1px solid #d9d9d9",
                         }}
                     >
-                        Страву не знайдено
+                        Страв не знайдено
                     </div>
                 )}
             </div>
-            <DishesModal visible={visible} setVisible={setVisible}>
+            <DishesModal visible={createVisible} setVisible={setCreateVisible}>
                 <AddDishes dish={selectedDish} createDish={createDish} />
             </DishesModal>
+            <DishesModal visible={editVisible} setVisible={setEditVisible}>
+                <EditDishes dish={selectedDish} editDish={editDish} />
+            </DishesModal>
+            <Toaster richColors />
         </div>
     );
 };
