@@ -214,7 +214,7 @@ const Profile = () => {
                             </p>
                         </div>
                         <MyButton
-                            style={{ fontSize: "18px" }}
+                            style={{ fontSize: "18px", margin: "15px 0" }}
                             onClick={() =>
                                 setEditProfileModal(!editProfileModal)
                             }

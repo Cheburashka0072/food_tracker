@@ -5,6 +5,6 @@ const schema = new Schema({
     carbohydrates: { type: Number, required: true },
     proteins: { type: Number, required: true },
     fats: { type: Number, required: true },
-    owner: { type: Types.ObjectId, ref: "User" },
+    owner: { type: Types.ObjectId, ref: "User", default: null },
 });
 module.exports = model("Dish", schema);

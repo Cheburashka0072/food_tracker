@@ -17,6 +17,18 @@ router.post("/create", auth, async (req, res) => {
         });
     }
 });
+router.post("/defCreate", auth, async (req, res) => {
+    try {
+        console.log(req.body);
+        const dish = new Dish(req.body);
+        await dish.save();
+        res.status(200).json({ body: dish, message: "Дані додано" });
+    } catch (e) {
+        res.status(500).json({
+            message: "Something went wrong, try again",
+        });
+    }
+});
 
 router.post("/delete", auth, async (req, res) => {
     try {
@@ -58,6 +70,16 @@ router.put("/edit", auth, async (req, res) => {
 router.get("/", auth, async (req, res) => {
     try {
         const dishes = await Dish.find({ owner: req.user.userId });
+        res.json(dishes);
+    } catch (e) {
+        res.status(500).json({
+            message: "Something went wrong, try again",
+        });
+    }
+});
+router.get("/defaultDishes", auth, async (req, res) => {
+    try {
+        const dishes = await Dish.find({ owner: null });
         res.json(dishes);
     } catch (e) {
         res.status(500).json({

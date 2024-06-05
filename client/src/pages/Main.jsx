@@ -307,6 +307,19 @@ const Main = () => {
             if (response.length > 0) setPersonStats(response);
         } catch (e) {}
     }, []);
+    const loadDishes = useCallback(async () => {
+        try {
+            const response = await request(
+                "/api/dish/",
+                "GET",
+                {},
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            if (response.length > 0) setDishes(response);
+        } catch (e) {}
+    }, []);
 
     useEffect(() => {
         checkPersonStats(Date.parse(date));
@@ -314,7 +327,8 @@ const Main = () => {
     useEffect(() => {
         loadProfile();
         loadStats();
-    }, [loadProfile, loadStats]);
+        loadDishes();
+    }, [loadProfile, loadStats, loadDishes]);
     useEffect(() => {
         clearError();
     }, [clearError]);

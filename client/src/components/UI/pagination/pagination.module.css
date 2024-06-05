@@ -1,0 +1,22 @@
+.pagesBlock {
+    display: flex;
+    justify-content: center;
+}
+.pages {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0;
+}
+.page {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    background: #ffa800;
+    border-radius: 50%;
+    margin: 0 10px;
+}

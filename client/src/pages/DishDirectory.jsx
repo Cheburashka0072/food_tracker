@@ -11,6 +11,8 @@ import { AuthContext } from "../context";
 import { useMessage } from "../hooks/message.hook";
 import toast, { Toaster } from "react-hot-toast";
 import { EditDishes } from "../components/editDishes/EditDishes";
+import Pagination from "../components/UI/pagination/Pagination";
+import { getPageCount } from "../hooks/usePagination";
 
 const DishDirectory = () => {
     const { token } = useContext(AuthContext);
@@ -21,8 +23,10 @@ const DishDirectory = () => {
     const [searchedDishes, setSearchedDishes] = useState(dishes);
     const [createVisible, setCreateVisible] = useState(false);
     const [editVisible, setEditVisible] = useState(false);
-
     const [selectedDish, setSelectedDish] = useState(false);
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [userDishes, setUserDishes] = useState(true);
 
     const loadDishes = useCallback(async () => {
         try {
@@ -37,8 +41,21 @@ const DishDirectory = () => {
             if (response.length > 0) setDishes(response);
         } catch (e) {}
     }, []);
+    const loadDefaultDishes = useCallback(async () => {
+        try {
+            const response = await request(
+                "/api/dish/defaultDishes",
+                "GET",
+                {},
+                {
+                    Authorization: `Bearer: ${token}`,
+                }
+            );
+            if (response.length > 0) setDishes(response);
+        } catch (e) {}
+    }, []);
 
-    const createDish = useCallback(async (form) => {
+    const createDish = async (form) => {
         try {
             await request(
                 "/api/dish/create",
@@ -58,8 +75,8 @@ const DishDirectory = () => {
             loadDishes();
             setCreateVisible(false);
         } catch (e) {}
-    }, []);
-    const deleteDish = useCallback(async (dish) => {
+    };
+    const deleteDish = async (dish) => {
         try {
             await request(
                 "/api/dish/delete",
@@ -72,7 +89,7 @@ const DishDirectory = () => {
             message("Страву успішно видалено!", toast.success);
             loadDishes();
         } catch (e) {}
-    }, []);
+    };
     const editDish = async (form) => {
         try {
             await request(
@@ -96,41 +113,81 @@ const DishDirectory = () => {
         } catch (e) {}
     };
 
+    const changePage = (page) => {
+        setCurrentPage(page);
+    };
+
     useEffect(() => {
         loadDishes();
     }, [loadDishes]);
-
-    console.log(searchedDishes);
+    useEffect(() => {
+        setTotalPages(getPageCount(searchedDishes.length, 10));
+        setCurrentPage(1);
+    }, [searchedDishes]);
 
     return (
         <div>
             <div
                 style={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     marginBottom: "20px",
                 }}
             >
-                <button
-                    style={{
-                        marginTop: "15px",
-                        padding: "7px 12px",
-                        backgroundColor: "#ffa800",
-                        borderRadius: "32px",
-                        fontWeight: "500",
-                        color: "white",
-                    }}
-                    onClick={() => {
-                        setSelectedDish(false);
-                        setCreateVisible(!createVisible);
-                    }}
-                >
-                    Додати продукт
-                </button>
+                <div style={{ display: "flex" }}>
+                    <h2
+                        style={{
+                            fontSize: "18px",
+                            fontWeight: "bold",
+                            marginRight: "10px",
+                        }}
+                    >
+                        Продукти
+                    </h2>
+                    <button
+                        disabled={userDishes === true}
+                        onClick={() => {
+                            loadDishes();
+                            setUserDishes(true);
+                        }}
+                        style={
+                            userDishes === true ? { fontWeight: "bold" } : {}
+                        }
+                    >
+                        юзера
+                    </button>
+                    <p>/</p>
+                    <button
+                        disabled={userDishes === false}
+                        onClick={() => {
+                            loadDefaultDishes();
+                            setUserDishes(false);
+                        }}
+                        style={
+                            userDishes === false ? { fontWeight: "bold" } : {}
+                        }
+                    >
+                        дефолт
+                    </button>
+                </div>
+                {userDishes && (
+                    <MyButton
+                        onClick={() => {
+                            setSelectedDish(false);
+                            setCreateVisible(!createVisible);
+                        }}
+                    >
+                        Додати продукт
+                    </MyButton>
+                )}
             </div>
 
             <div className="table__row">
-                <div className="table__row-item" style={{ padding: "6px" }}>
+                <div
+                    className="table__row-item"
+                    style={{ padding: "6px", width: "25%" }}
+                >
                     Назва
                 </div>
                 <div className="table__row-item" style={{ padding: "6px" }}>
@@ -147,7 +204,7 @@ const DishDirectory = () => {
                 </div>
                 <div
                     className="table__row-item"
-                    style={{ width: "30%", padding: "6px" }}
+                    style={{ width: "15%", padding: "6px" }}
                 >
                     <Filter
                         dishes={dishes}
@@ -156,48 +213,93 @@ const DishDirectory = () => {
                 </div>
             </div>
             <div>
-                {dishes && searchedDishes.length > 0 ? (
-                    searchedDishes.map((dish, index) => (
-                        <div key={index} className="table__row">
-                            <div className="table__row-item">{dish.name}</div>
-                            <div className="table__row-item">
-                                {dish.calories}
-                            </div>
-                            <div className="table__row-item">
-                                {dish.carbohydrates}
-                            </div>
-                            <div className="table__row-item">
-                                {dish.proteins}
-                            </div>
-                            <div className="table__row-item">{dish.fats}</div>
-                            <button
-                                className="table__row-item"
-                                onClick={() => {
-                                    setEditVisible(!editVisible);
-                                    setSelectedDish(dish);
-                                }}
-                            >
-                                Змінити
-                            </button>
-                            <button
-                                className="table__row-item"
-                                onClick={() => deleteDish(dish)}
-                            >
-                                X
-                            </button>
+                <div>
+                    {dishes && searchedDishes.length > 0 ? (
+                        searchedDishes
+                            .slice(currentPage * 10 - 10, currentPage * 10)
+                            .map((dish, index) => (
+                                <div key={index} className="table__row">
+                                    <div
+                                        className="table__row-item"
+                                        style={{ width: "25%" }}
+                                    >
+                                        {dish.name}
+                                    </div>
+                                    <div className="table__row-item">
+                                        {dish.calories}
+                                    </div>
+                                    <div className="table__row-item">
+                                        {dish.carbohydrates}
+                                    </div>
+                                    <div className="table__row-item">
+                                        {dish.proteins}
+                                    </div>
+                                    <div className="table__row-item">
+                                        {dish.fats}
+                                    </div>
+                                    <button
+                                        disabled={userDishes === false}
+                                        className="table__row-item"
+                                        onClick={() => {
+                                            setEditVisible(!editVisible);
+                                            setSelectedDish(dish);
+                                        }}
+                                        style={
+                                            userDishes === false
+                                                ? {
+                                                      color: "#a1a1a1",
+                                                      width: "10%",
+                                                  }
+                                                : {
+                                                      background:
+                                                          "rgba(255, 168, 0, 1)",
+                                                      width: "10%",
+                                                  }
+                                        }
+                                    >
+                                        Змінити
+                                    </button>
+                                    <button
+                                        disabled={userDishes === false}
+                                        className="table__row-item"
+                                        onClick={() => deleteDish(dish)}
+                                        style={
+                                            userDishes === false
+                                                ? {
+                                                      color: "#a1a1a1",
+                                                      width: "5%",
+                                                  }
+                                                : {
+                                                      background:
+                                                          "rgba(255, 103, 92, 1)",
+                                                      color: "#fff",
+                                                      width: "5%",
+                                                  }
+                                        }
+                                    >
+                                        X
+                                    </button>
+                                </div>
+                            ))
+                    ) : (
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                padding: "30px 0",
+                                border: "1px solid #d9d9d9",
+                            }}
+                        >
+                            Страв не знайдено
                         </div>
-                    ))
-                ) : (
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            padding: "30px 0",
-                            border: "1px solid #d9d9d9",
-                        }}
-                    >
-                        Страв не знайдено
-                    </div>
+                    )}
+                </div>
+                {searchedDishes.length > 10 && (
+                    <Pagination
+                        totalPages={totalPages}
+                        page={currentPage}
+                        changePage={changePage}
+                    />
                 )}
             </div>
             <DishesModal visible={createVisible} setVisible={setCreateVisible}>

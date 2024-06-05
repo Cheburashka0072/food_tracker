@@ -33,6 +33,6 @@ export const useAuth = () => {
             logout();
         }
         setReady(true);
-    }, [login, JSON.parse(localStorage.getItem(storageName))]);
+    }, [login, logout, JSON.parse(localStorage.getItem(storageName))]);
     return { login, logout, token, userId, ready };
 };
