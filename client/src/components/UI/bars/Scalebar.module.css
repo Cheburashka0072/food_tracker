@@ -1,11 +1,12 @@
 .statsBar {
-  width: 250px;
-  height: 25px;
-  background-color: #d9d9d9;
-  border-radius: 13px;
+    width: 250px;
+    height: 25px;
+    background-color: #d9d9d9;
+    border-radius: 13px;
+    overflow: hidden;
 }
 .statsFillBar {
-  height: 100%;
+    height: 100%;
 
-  border-radius: 13px;
+    border-radius: 13px;
 }

@@ -10,7 +10,7 @@ router.post("/create", auth, async (req, res) => {
             owner: req.user.userId,
         });
         await dish.save();
-        res.status(200).json({ body: dish, message: "Дані додано" });
+        res.status(200).json({ body: dish, message: "Продукт додано" });
     } catch (e) {
         res.status(500).json({
             message: "Something went wrong, try again",
@@ -36,7 +36,7 @@ router.post("/delete", auth, async (req, res) => {
         const deletedDish = await Dish.findOneAndDelete({ _id });
         res.status(200).json({
             body: deletedDish,
-            message: "Успішно видалено",
+            message: "Продукт видалено",
         });
     } catch (e) {
         res.status(500).json({
@@ -59,7 +59,7 @@ router.put("/edit", auth, async (req, res) => {
             }
         );
 
-        return res.status(200).json({ message: "Дані оновлено" });
+        return res.status(200).json({ message: "Продукт оновлено" });
     } catch (e) {
         res.status(500).json({
             message: "Something went wrong, try again",

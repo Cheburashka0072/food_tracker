@@ -77,12 +77,14 @@ const Statistics = () => {
     else
         return (
             <div>
-                <MyButton
-                    style={{ position: "relative" }}
-                    onClick={() => setShowSearch(!showSearch)}
-                >
-                    Пошук за певними датами
-                </MyButton>
+                {stats.length > 1 && (
+                    <MyButton
+                        style={{ position: "relative" }}
+                        onClick={() => setShowSearch(!showSearch)}
+                    >
+                        Пошук за певними датами
+                    </MyButton>
+                )}
                 {showSearch && (
                     <div
                         style={{

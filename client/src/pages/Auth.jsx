@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHttp } from "../hooks/http.hook";
 import { useMessage } from "../hooks/message.hook";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
@@ -87,7 +87,6 @@ const Auth = () => {
                     <MyButton onClick={registerHandler} disabled={loading}>
                         Реєстрація
                     </MyButton>
-                    <Toaster richColors />
                 </div>
             </div>
         </div>

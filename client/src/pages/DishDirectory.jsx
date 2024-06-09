@@ -1,6 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import RecipesForm from "../components/recipes/RecipesForm";
-import RecipesList from "../components/recipes/RecipesList";
 import MyButton from "../components/UI/button/MyButton";
 import DishesModal from "../components/UI/DishesModal/DishesModal";
 import { AddDishes } from "../components/addDishes/AddDishes";
@@ -9,7 +7,7 @@ import { Filter } from "../components/UI/filter/Filter";
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context";
 import { useMessage } from "../hooks/message.hook";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { EditDishes } from "../components/editDishes/EditDishes";
 import Pagination from "../components/UI/pagination/Pagination";
 import { getPageCount } from "../hooks/usePagination";
@@ -39,6 +37,7 @@ const DishDirectory = () => {
                 }
             );
             if (response.length > 0) setDishes(response);
+            else setDishes([]);
         } catch (e) {}
     }, []);
     const loadDefaultDishes = useCallback(async () => {
@@ -57,7 +56,7 @@ const DishDirectory = () => {
 
     const createDish = async (form) => {
         try {
-            await request(
+            const response = await request(
                 "/api/dish/create",
                 "POST",
                 {
@@ -71,14 +70,14 @@ const DishDirectory = () => {
                     Authorization: `Bearer: ${token}`,
                 }
             );
-            message("Страву успішно додано!", toast.success);
+            message(response.message, toast.success);
             loadDishes();
             setCreateVisible(false);
         } catch (e) {}
     };
     const deleteDish = async (dish) => {
         try {
-            await request(
+            const response = await request(
                 "/api/dish/delete",
                 "POST",
                 { ...dish },
@@ -86,13 +85,13 @@ const DishDirectory = () => {
                     Authorization: `Bearer: ${token}`,
                 }
             );
-            message("Страву успішно видалено!", toast.success);
+            message(response.message, toast.success);
             loadDishes();
         } catch (e) {}
     };
     const editDish = async (form) => {
         try {
-            await request(
+            const response = await request(
                 "/api/dish/edit",
                 "PUT",
                 {
@@ -107,7 +106,7 @@ const DishDirectory = () => {
                     Authorization: `Bearer: ${token}`,
                 }
             );
-            message("Страву успішно додано!", toast.success);
+            message(response.message, toast.success);
             loadDishes();
             setEditVisible(false);
         } catch (e) {}
@@ -124,6 +123,12 @@ const DishDirectory = () => {
         setTotalPages(getPageCount(searchedDishes.length, 10));
         setCurrentPage(1);
     }, [searchedDishes]);
+    useEffect(() => {
+        clearError();
+    }, [clearError]);
+
+    if (loading) return <h1>Loading...</h1>;
+    if (error) return <h1>{error}</h1>;
 
     return (
         <div>
@@ -155,7 +160,7 @@ const DishDirectory = () => {
                             userDishes === true ? { fontWeight: "bold" } : {}
                         }
                     >
-                        юзера
+                        Користувача
                     </button>
                     <p>/</p>
                     <button
@@ -168,7 +173,7 @@ const DishDirectory = () => {
                             userDishes === false ? { fontWeight: "bold" } : {}
                         }
                     >
-                        дефолт
+                        Базові
                     </button>
                 </div>
                 {userDishes && (
@@ -290,7 +295,7 @@ const DishDirectory = () => {
                                 border: "1px solid #d9d9d9",
                             }}
                         >
-                            Страв не знайдено
+                            Продуктів не знайдено
                         </div>
                     )}
                 </div>
@@ -308,7 +313,6 @@ const DishDirectory = () => {
             <DishesModal visible={editVisible} setVisible={setEditVisible}>
                 <EditDishes dish={selectedDish} editDish={editDish} />
             </DishesModal>
-            <Toaster richColors />
         </div>
     );
 };

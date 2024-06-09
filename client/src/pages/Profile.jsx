@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { AuthContext, ProfileContext } from "../context";
+import { AuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import cat1 from "../img/profile/cat1.jpg";
 import cat2 from "../img/profile/cat2.jpg";
@@ -125,9 +125,19 @@ const Profile = () => {
         clearError();
     }, [clearError]);
 
-    if (loading) return <h1>loading</h1>;
+    if (loading)
+        return (
+            <div>
+                <h1>Loading</h1>
+            </div>
+        );
     if (error) return <h1>{error}</h1>;
-    if (!ready) return <h1>Loading profile...</h1>;
+    if (!ready)
+        return (
+            <div>
+                <h1>Loading profile...</h1>
+            </div>
+        );
     else
         return (
             <>
@@ -237,7 +247,6 @@ const Profile = () => {
                         </MyButton>
                     </div>
                 )}
-                <Toaster richColors />
             </>
         );
 };

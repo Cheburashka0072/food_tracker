@@ -3,6 +3,7 @@ import AppRouter from "./components/AppRouter";
 import "./styles/common.css";
 import { AuthContext, ProfileContext } from "./context";
 import { useAuth } from "./hooks/auth.hook";
+import { Toaster } from "react-hot-toast";
 function App() {
     const { token, login, logout, userId, ready } = useAuth();
     const isAuth = !!token;
@@ -18,6 +19,7 @@ function App() {
                         <AppRouter />
                     </main>
                 )}
+                <Toaster richColors />
             </div>
         </AuthContext.Provider>
     );

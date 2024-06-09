@@ -82,10 +82,11 @@ export const CreateProfile = ({ changeHandler, confirmProfile }) => {
                         name="activity"
                         onChange={(e) => changeHandler(e)}
                     >
-                        <option value={1.2}>Невелика</option>
-                        <option value={1.375}>Помірна</option>
-                        <option value={1.55}>Висока</option>
-                        <option value={1.725}>Дуже висока</option>
+                        <option value={1.2}>Малорухлива</option>
+                        <option value={1.375}>Невелика</option>
+                        <option value={1.55}>Помірна</option>
+                        <option value={1.725}> Висока</option>
+                        <option value={1.9}>Дуже висока</option>
                     </select>
                 </div>
                 <div className="createProfile__buttons">

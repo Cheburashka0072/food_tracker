@@ -8,7 +8,10 @@ router.post("/manipulate", auth, async (req, res) => {
         const { personMeals, water, timestamp } = req.body;
 
         if (personMeals.length === 0 && water === 0) {
-            const deletedStat = await Stat.findOneAndDelete({ timestamp });
+            const deletedStat = await Stat.findOneAndDelete({
+                timestamp: timestamp,
+                owner: req.user.userId,
+            });
             if (deletedStat) {
                 console.log("Deleted:", deletedStat);
                 return res.status(200).json({
@@ -22,7 +25,10 @@ router.post("/manipulate", auth, async (req, res) => {
             }
         }
 
-        let existStat = await Stat.findOne({ timestamp: req.body.timestamp });
+        let existStat = await Stat.findOne({
+            timestamp: timestamp,
+            owner: req.user.userId,
+        });
         if (existStat) {
             await Stat.updateOne(
                 { timestamp: req.body.timestamp },

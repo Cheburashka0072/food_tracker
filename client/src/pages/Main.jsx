@@ -10,11 +10,10 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Calendar from "react-calendar";
 import MyButton from "../components/UI/button/MyButton";
 import "react-calendar/dist/Calendar.css";
-import { toast, Toaster } from "react-hot-toast";
-import { AddDishes } from "../components/addDishes/AddDishes";
-import DishesModal from "../components/UI/DishesModal/DishesModal";
+import { toast } from "react-hot-toast";
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context";
+import { useMessage } from "../hooks/message.hook";
 const Main = () => {
     const { token } = useContext(AuthContext);
     const currDate = new Date();
@@ -22,88 +21,7 @@ const Main = () => {
     currDate.setMinutes(0);
     currDate.setSeconds(0);
     currDate.setMilliseconds(0);
-    const localStorageDishes = localStorage.getItem("dishes");
-    if (!localStorageDishes)
-        localStorage.setItem(
-            "dishes",
-            JSON.stringify([
-                {
-                    name: "Колбаса",
-                    calories: 300,
-                    carbohydrates: 27,
-                    proteins: 30,
-                    fats: 15,
-                },
-                {
-                    name: "Пюре",
-                    calories: 400,
-                    carbohydrates: 27,
-                    proteins: 30,
-                    fats: 15,
-                },
-                {
-                    name: "Булка",
-                    calories: 600,
-                    carbohydrates: 27,
-                    proteins: 30,
-                    fats: 15,
-                },
-                {
-                    name: "Сыр",
-                    calories: 700,
-                    carbohydrates: 27,
-                    proteins: 30,
-                    fats: 15,
-                },
-                {
-                    name: "Сосиска",
-                    calories: 800,
-                    carbohydrates: 27,
-                    proteins: 30,
-                    fats: 15,
-                },
-            ])
-        );
-    const [dishes, setDishes] = useState(
-        JSON.parse(localStorageDishes) || [
-            {
-                name: "Колбаса",
-                calories: 300,
-                carbohydrates: 27,
-                proteins: 30,
-                fats: 15,
-            },
-            {
-                name: "Пюре",
-                calories: 400,
-                carbohydrates: 27,
-                proteins: 30,
-                fats: 15,
-            },
-            {
-                name: "Булка",
-                calories: 600,
-                carbohydrates: 27,
-                proteins: 30,
-                fats: 15,
-            },
-            {
-                name: "Сыр",
-                calories: 700,
-                carbohydrates: 27,
-                proteins: 30,
-                fats: 15,
-            },
-            {
-                name: "Сосиска",
-                calories: 800,
-                carbohydrates: 27,
-                proteins: 30,
-                fats: 15,
-            },
-        ]
-    );
-    const [searchedDishes, setSearchedDishes] = useState(dishes);
+    const message = useMessage();
 
     const [date, setDate] = useState(currDate);
     const [personStats, setPersonStats] = useState([
@@ -267,7 +185,7 @@ const Main = () => {
     const addStat = async (newPersonStats, indexOfStats) => {
         try {
             console.log(newPersonStats[indexOfStats]);
-            await request(
+            const response = await request(
                 "/api/stat/manipulate",
                 "POST",
                 {
@@ -276,6 +194,7 @@ const Main = () => {
                 },
                 { Authorization: `Bearer: ${token}` }
             );
+            message(response.message, toast.success);
         } catch (e) {}
     };
 
@@ -307,19 +226,6 @@ const Main = () => {
             if (response.length > 0) setPersonStats(response);
         } catch (e) {}
     }, []);
-    const loadDishes = useCallback(async () => {
-        try {
-            const response = await request(
-                "/api/dish/",
-                "GET",
-                {},
-                {
-                    Authorization: `Bearer: ${token}`,
-                }
-            );
-            if (response.length > 0) setDishes(response);
-        } catch (e) {}
-    }, []);
 
     useEffect(() => {
         checkPersonStats(Date.parse(date));
@@ -327,8 +233,7 @@ const Main = () => {
     useEffect(() => {
         loadProfile();
         loadStats();
-        loadDishes();
-    }, [loadProfile, loadStats, loadDishes]);
+    }, [loadProfile, loadStats]);
     useEffect(() => {
         clearError();
     }, [clearError]);
@@ -412,11 +317,8 @@ const Main = () => {
                         />
                     </div>
                 )}
+
                 <Dishes
-                    dishes={dishes}
-                    searchedDishes={searchedDishes}
-                    setSearchedDishes={setSearchedDishes}
-                    setDishes={setDishes}
                     meals={meals}
                     addMeal={addMeal}
                     deleteMeal={deleteMeal}
@@ -434,13 +336,11 @@ const Main = () => {
                         style={{ fontSize: "20px" }}
                         onClick={() => {
                             confirmStats(Date.parse(date));
-                            toast.success("Дані збережено");
                         }}
                     >
                         Зберегти
                     </MyButton>
                 </div>
-                <Toaster richColors />
             </div>
         );
 };
