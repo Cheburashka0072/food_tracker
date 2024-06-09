@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const config = require("config");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -13,7 +14,7 @@ app.use("/api/profile", require("./routes/profile.routes"));
 app.use("/api/stat", require("./routes/stat.routes"));
 app.use("/api/dish", require("./routes/dish.routes"));
 
-const PORT = process.env.PORT || 4444;
+const PORT = process.env.PORT || 5000;
 
 async function start() {
     try {
