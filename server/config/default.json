@@ -1,0 +1,5 @@
+{
+    "port": 5000,
+    "jwtSecret": "richard food tracker",
+    "mongoUri": "mongodb+srv://polovnikovyaroslav:qwerty1234@cluster0.9mu6wne.mongodb.net/app?retryWrites=true&w=majority&appName=Cluster0"
+}
