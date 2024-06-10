@@ -16,17 +16,8 @@ app.use("/api/dish", require("./routes/dish.routes"));
 
 const PORT = process.env.PORT || 5000;
 
-async function start() {
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {});
-        app.use(cors());
-        app.listen(PORT, () =>
-            console.log(`App has been started on port ${PORT}...`)
-        );
-    } catch (e) {
-        console.log("Server Error", e.message);
-        process.exit(1);
-    }
-}
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
-start();
+app.listen(PORT, () => console.log(`Server ready on port ${PORT}.`));
+
+module.exports = app;
