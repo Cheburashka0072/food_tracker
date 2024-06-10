@@ -71,7 +71,6 @@ router.post(
                 return res.status(400).json({ message: "User not found" });
             }
             const isMatch = await bcrypt.compare(password, user.password);
-            console.log(isMatch);
             if (!isMatch) {
                 return res
                     .status(400)
@@ -79,7 +78,7 @@ router.post(
             }
             const token = jwt.sign(
                 { userId: user.id },
-                config.get("jwtSecret"),
+                process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
             res.json({ token, userId: user.id });

@@ -13,7 +13,7 @@ app.use("/api/profile", require("./routes/profile.routes"));
 app.use("/api/stat", require("./routes/stat.routes"));
 app.use("/api/dish", require("./routes/dish.routes"));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4444;
 
 const start = async () => {
     try {
