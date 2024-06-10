@@ -31,6 +31,7 @@ const start = async () => {
     }
 };
 
+console.log(`MONGODB_URI: ${process.env.MONGODB_URI}`);
 start();
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
