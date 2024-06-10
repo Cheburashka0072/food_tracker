@@ -15,7 +15,6 @@ app.use("/api/dish", require("./routes/dish.routes"));
 
 const PORT = process.env.PORT || 5000;
 
-// Подключение к MongoDB
 const start = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
@@ -31,7 +30,6 @@ const start = async () => {
     }
 };
 
-console.log(`MONGODB_URI: ${process.env.MONGODB_URI}`);
 start();
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
