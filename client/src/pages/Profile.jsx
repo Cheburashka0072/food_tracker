@@ -18,6 +18,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { CreateProfile } from "../components/profile/CreateProfile";
 import DishesModal from "../components/UI/DishesModal/DishesModal";
 import { EditProfile } from "../components/profile/EditProfile";
+import { Loader } from "../components/UI/loader/Loader";
 
 const Profile = () => {
     const { isAuth, token, logout } = useContext(AuthContext);
@@ -36,7 +37,7 @@ const Profile = () => {
     const [profile, setProfile] = useState(false);
     const [editProfileModal, setEditProfileModal] = useState(false);
     const [pfp, setPfp] = useState(0);
-    const [ready, setReady] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const getRandomCat = (max) => {
         return cats[Math.floor(Math.random() * max)];
@@ -117,137 +118,136 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        loadProfile();
-        setPfp(getRandomCat(10));
-        setReady(true);
+        (async () => {
+            loadProfile();
+            setPfp(getRandomCat(10));
+            setIsLoading(false);
+        })();
     }, [loadProfile]);
     useEffect(() => {
         clearError();
     }, [clearError]);
 
-    if (loading)
+    if (loading || isLoading)
         return (
-            <div>
-                <h1>Loading</h1>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                    width: "50vh",
+                    margin: "0 auto",
+                }}
+            >
+                <Loader />
             </div>
         );
     if (error) return <h1>{error}</h1>;
-    if (!ready)
-        return (
-            <div>
-                <h1>Loading profile...</h1>
-            </div>
-        );
-    else
-        return (
-            <>
-                {!profile ? (
-                    <CreateProfile
-                        changeHandler={changeHandler}
-                        confirmProfile={confirmProfile}
-                    />
-                ) : (
+
+    return !profile ? (
+        <CreateProfile
+            changeHandler={changeHandler}
+            confirmProfile={confirmProfile}
+        />
+    ) : (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+        >
+            <div style={{ width: "700px" }}>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        fontSize: "32px",
+                    }}
+                >
                     <div
                         style={{
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "center",
                         }}
                     >
-                        <div style={{ width: "700px" }}>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                    fontSize: "32px",
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                    }}
-                                >
-                                    <p style={{ marginBottom: "10px" }}>
-                                        {"Ім'я: "}
-                                        <span style={{ fontWeight: "bold" }}>
-                                            {profile.name}
-                                        </span>
-                                    </p>
-                                    <p
-                                        style={{
-                                            fontSize: "24px",
-                                            marginBottom: "10px",
-                                        }}
-                                    >
-                                        Норма калорій:{" "}
-                                        <span style={{ fontWeight: "bold" }}>
-                                            {profile.BMR.toFixed(0)}
-                                        </span>
-                                    </p>
-                                </div>
-                                <img
-                                    style={{
-                                        width: "250px",
-                                        height: "250px",
-                                        objectFit: "cover",
-                                        borderRadius: "50%",
-                                    }}
-                                    src={pfp}
-                                    alt="pfp"
-                                />
-                            </div>
-                            <p
-                                style={{
-                                    fontSize: "24px",
-                                    marginBottom: "10px",
-                                }}
-                            >
-                                Вік: {profile.age}
-                            </p>
-                            <p
-                                style={{
-                                    fontSize: "24px",
-                                    marginBottom: "10px",
-                                }}
-                            >
-                                Зріст: {profile.height}
-                            </p>
-                            <p
-                                style={{
-                                    fontSize: "24px",
-                                    marginBottom: "10px",
-                                }}
-                            >
-                                Вага: {profile.weight}
-                            </p>
-                        </div>
-                        <MyButton
-                            style={{ fontSize: "18px", margin: "15px 0" }}
-                            onClick={() =>
-                                setEditProfileModal(!editProfileModal)
-                            }
+                        <p style={{ marginBottom: "10px" }}>
+                            {"Ім'я: "}
+                            <span style={{ fontWeight: "bold" }}>
+                                {profile.name}
+                            </span>
+                        </p>
+                        <p
+                            style={{
+                                fontSize: "24px",
+                                marginBottom: "10px",
+                            }}
                         >
-                            Редагувати профіль
-                        </MyButton>
-                        <DishesModal
-                            visible={editProfileModal}
-                            setVisible={setEditProfileModal}
-                        >
-                            <EditProfile
-                                profile={profile}
-                                form={form}
-                                changeHandler={changeHandler}
-                                editProfile={editProfile}
-                            />
-                        </DishesModal>
-                        <MyButton style={{ fontSize: "18px" }} onClick={logout}>
-                            Вийти з облікового запису
-                        </MyButton>
+                            Норма калорій:{" "}
+                            <span style={{ fontWeight: "bold" }}>
+                                {profile.BMR.toFixed(0)}
+                            </span>
+                        </p>
                     </div>
-                )}
-            </>
-        );
+                    <img
+                        style={{
+                            width: "250px",
+                            height: "250px",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                        }}
+                        src={pfp}
+                        alt="pfp"
+                    />
+                </div>
+                <p
+                    style={{
+                        fontSize: "24px",
+                        marginBottom: "10px",
+                    }}
+                >
+                    Вік: {profile.age}
+                </p>
+                <p
+                    style={{
+                        fontSize: "24px",
+                        marginBottom: "10px",
+                    }}
+                >
+                    Зріст: {profile.height}
+                </p>
+                <p
+                    style={{
+                        fontSize: "24px",
+                        marginBottom: "10px",
+                    }}
+                >
+                    Вага: {profile.weight}
+                </p>
+            </div>
+            <MyButton
+                style={{ fontSize: "18px", margin: "15px 0" }}
+                onClick={() => setEditProfileModal(!editProfileModal)}
+            >
+                Редагувати профіль
+            </MyButton>
+            <DishesModal
+                visible={editProfileModal}
+                setVisible={setEditProfileModal}
+            >
+                <EditProfile
+                    profile={profile}
+                    form={form}
+                    changeHandler={changeHandler}
+                    editProfile={editProfile}
+                />
+            </DishesModal>
+            <MyButton style={{ fontSize: "18px" }} onClick={logout}>
+                Вийти з облікового запису
+            </MyButton>
+        </div>
+    );
 };
 export default Profile;

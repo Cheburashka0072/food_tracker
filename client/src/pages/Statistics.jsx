@@ -7,15 +7,17 @@ import { AuthContext } from "../context";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import MyButton from "../components/UI/button/MyButton";
+import { Loader } from "../components/UI/loader/Loader";
 
 const Statistics = () => {
     const { token } = useContext(AuthContext);
     const [profile, setProfile] = useState(false);
     const [stats, setStats] = useState([]);
-    const [filteredStats, setFilteredStats] = useState(stats);
+    const [filteredStats, setFilteredStats] = useState([]);
     const [from, setFrom] = useState(0);
     const [to, setTo] = useState(new Date());
     const [showSearch, setShowSearch] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { loading, request, error, clearError } = useHttp();
 
     const loadProfile = useCallback(async () => {
@@ -28,9 +30,10 @@ const Statistics = () => {
                     Authorization: `Bearer: ${token}`,
                 }
             );
-            setProfile(...response);
+            setProfile(response);
         } catch (e) {}
-    }, []);
+    }, [request, token]);
+
     const loadStats = useCallback(async () => {
         try {
             const response = await request(
@@ -46,12 +49,16 @@ const Statistics = () => {
                 setFilteredStats(response);
             }
         } catch (e) {}
-    }, []);
+    }, [request, token]);
 
     useEffect(() => {
-        loadProfile();
-        loadStats();
+        (async () => {
+            await loadProfile();
+            await loadStats();
+            setIsLoading(false);
+        })();
     }, [loadProfile, loadStats]);
+
     useEffect(() => {
         clearError();
     }, [clearError]);
@@ -71,7 +78,21 @@ const Statistics = () => {
         setFilteredStats(temp);
     };
 
-    if (loading) return <h1>loading</h1>;
+    if (loading || isLoading)
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                    width: "50vh",
+                    margin: "0 auto",
+                }}
+            >
+                <Loader />
+            </div>
+        );
     if (error) return <h1>{error}</h1>;
     if (!profile) return <h1>Спочатку створіть профіль!</h1>;
     else
@@ -90,7 +111,6 @@ const Statistics = () => {
                         style={{
                             display: "flex",
                             flexDirection: "column",
-
                             position: "absolute",
                             background: "#ffffffc7",
                             border: "2px solid #ffa800",

@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { EditDishes } from "../components/editDishes/EditDishes";
 import Pagination from "../components/UI/pagination/Pagination";
 import { getPageCount } from "../hooks/usePagination";
+import { Loader } from "../components/UI/loader/Loader";
 
 const DishDirectory = () => {
     const { token } = useContext(AuthContext);
@@ -25,6 +26,7 @@ const DishDirectory = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [userDishes, setUserDishes] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     const loadDishes = useCallback(async () => {
         try {
@@ -117,7 +119,10 @@ const DishDirectory = () => {
     };
 
     useEffect(() => {
-        loadDishes();
+        (async () => {
+            await loadDishes();
+            setIsLoading(false);
+        })();
     }, [loadDishes]);
     useEffect(() => {
         setTotalPages(getPageCount(searchedDishes.length, 10));
@@ -127,7 +132,21 @@ const DishDirectory = () => {
         clearError();
     }, [clearError]);
 
-    if (loading) return <h1>Loading...</h1>;
+    if (loading || isLoading)
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                    width: "50vh",
+                    margin: "0 auto",
+                }}
+            >
+                <Loader />
+            </div>
+        );
     if (error) return <h1>{error}</h1>;
 
     return (

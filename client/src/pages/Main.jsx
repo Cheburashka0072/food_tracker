@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast";
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context";
 import { useMessage } from "../hooks/message.hook";
+import { Loader } from "../components/UI/loader/Loader";
 const Main = () => {
     const { token } = useContext(AuthContext);
     const currDate = new Date();
@@ -57,6 +58,7 @@ const Main = () => {
     ]);
     const [calendar, setCalendar] = useState(false);
     const [water, setWater] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     const addMeal = (dish, mealType) => {
         const timestamp = Date.now();
@@ -231,14 +233,31 @@ const Main = () => {
         checkPersonStats(Date.parse(date));
     }, [date, personStats]);
     useEffect(() => {
-        loadProfile();
-        loadStats();
+        (async () => {
+            await loadProfile();
+            await loadStats();
+            setIsLoading(false);
+        })();
     }, [loadProfile, loadStats]);
     useEffect(() => {
         clearError();
     }, [clearError]);
 
-    if (loading) return <h1>Loading</h1>;
+    if (loading || isLoading)
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                    width: "50vh",
+                    margin: "0 auto",
+                }}
+            >
+                <Loader />
+            </div>
+        );
 
     if (error) return <h1>{error}</h1>;
 
