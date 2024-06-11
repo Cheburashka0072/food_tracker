@@ -47,7 +47,6 @@ const Auth = () => {
             password: "",
         });
     };
-
     useEffect(() => {
         message(error, toast.error);
         clearError();

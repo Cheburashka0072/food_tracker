@@ -146,10 +146,24 @@ const Profile = () => {
     if (error) return <h1>{error}</h1>;
 
     return !profile ? (
-        <CreateProfile
-            changeHandler={changeHandler}
-            confirmProfile={confirmProfile}
-        />
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+        >
+            <CreateProfile
+                changeHandler={changeHandler}
+                confirmProfile={confirmProfile}
+            />
+            <MyButton
+                style={{ marginTop: "15px", fontSize: "18px" }}
+                onClick={logout}
+            >
+                Вийти з облікового запису
+            </MyButton>
+        </div>
     ) : (
         <div
             style={{

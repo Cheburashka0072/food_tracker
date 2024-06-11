@@ -9,6 +9,7 @@ import { useHttp } from "../../hooks/http.hook";
 import { AuthContext } from "../../context";
 import { getPageCount } from "../../hooks/usePagination";
 import Pagination from "../UI/pagination/Pagination";
+import { Loader } from "../UI/loader/Loader";
 
 const Dishes = ({ meals, addMeal, deleteMeal }) => {
     const { token } = useContext(AuthContext);
@@ -21,6 +22,7 @@ const Dishes = ({ meals, addMeal, deleteMeal }) => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [isUserDishes, setUserDishes] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const loadDishes = useCallback(async () => {
         try {
             const response = await request(
@@ -53,7 +55,10 @@ const Dishes = ({ meals, addMeal, deleteMeal }) => {
     };
 
     useEffect(() => {
-        loadDishes();
+        (async () => {
+            await loadDishes();
+            setIsLoading(false);
+        })();
     }, [loadDishes]);
 
     useEffect(() => {
@@ -180,8 +185,19 @@ const Dishes = ({ meals, addMeal, deleteMeal }) => {
                         Базовий
                     </button>
                 </div>
-                {loading ? (
-                    <h1>Loading...</h1>
+                {loading || isLoading ? (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "50vh",
+                            width: "50vh",
+                            margin: "0 auto",
+                        }}
+                    >
+                        <Loader />
+                    </div>
                 ) : (
                     <>
                         <div

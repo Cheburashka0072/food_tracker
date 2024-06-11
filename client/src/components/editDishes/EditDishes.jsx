@@ -1,16 +1,58 @@
 import React, { useEffect, useState } from "react";
 import "./editDishes.css";
+import MyButton from "../UI/button/MyButton";
 
 export const EditDishes = ({ dish, editDish }) => {
     const [form, setForm] = useState({
         ...dish,
     });
-    const changeHandler = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const [errors, setErrors] = useState({});
+
+    const validateField = (name, value) => {
+        let error = "";
+
+        if (!value) {
+            error = "Це поле є обов'язковим.";
+        }
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: error,
+        }));
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        validateField(name, value);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+        validateField(name, value);
+    };
+
+    const isFormValid = () => {
+        return (
+            Object.values(errors).every((error) => error === "") &&
+            Object.values(form).every((value) => value !== "")
+        );
+    };
+
+    const handleSubmit = () => {
+        if (isFormValid()) {
+            editDish(form);
+            setErrors({});
+        } else {
+            Object.keys(form).forEach((field) =>
+                validateField(field, form[field])
+            );
+        }
     };
 
     useEffect(() => {
         setForm({ ...dish });
+        setErrors({});
     }, [dish]);
 
     return (
@@ -28,7 +70,11 @@ export const EditDishes = ({ dish, editDish }) => {
                 type="text"
                 value={form.name}
                 placeholder="Назва продукту"
-                onChange={(e) => changeHandler(e)}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                    border: errors.name ? "1px solid red" : "1px solid #d9d9d9",
+                }}
             />
             <div
                 style={{
@@ -40,10 +86,16 @@ export const EditDishes = ({ dish, editDish }) => {
                     id="calories"
                     name="calories"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.calories}
                     placeholder="Кількість калорій"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.calories
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
@@ -57,10 +109,16 @@ export const EditDishes = ({ dish, editDish }) => {
                     id="carbohydrates"
                     name="carbohydrates"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.carbohydrates}
                     placeholder="Кількість вуглеводів"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.carbohydrates
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
@@ -74,10 +132,16 @@ export const EditDishes = ({ dish, editDish }) => {
                     id="proteins"
                     name="proteins"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.proteins}
                     placeholder="Кількість білків"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.proteins
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
@@ -91,29 +155,23 @@ export const EditDishes = ({ dish, editDish }) => {
                     id="fats"
                     name="fats"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.fats}
                     placeholder="Кількість жирів"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.fats
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                    style={{
-                        marginTop: "15px",
-                        padding: "7px 12px",
-                        backgroundColor: "#ffa800",
-                        borderRadius: "32px",
-                        fontWeight: "500",
-                        color: "white",
-                    }}
-                    onClick={() => {
-                        editDish(form);
-                    }}
-                >
+                <MyButton onClick={handleSubmit} disabled={!isFormValid()}>
                     Змінити дані продукту
-                </button>
+                </MyButton>
             </div>
         </div>
     );
