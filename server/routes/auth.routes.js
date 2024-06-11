@@ -52,7 +52,7 @@ router.post(
 router.post(
     "/login",
     [
-        check("email", "Type correct email").normalizeEmail().isEmail(),
+        check("email", "Type correct email").isEmail(),
         check("password", "Type password").exists(),
     ],
     async (req, res) => {
