@@ -28,7 +28,7 @@ router.post(
                     message: "Wrong registration data",
                 });
             }
-
+            console.log(req.body);
             const { email, password } = req.body;
             const candidate = await User.findOne({ email: email });
             if (candidate) {
@@ -52,7 +52,7 @@ router.post(
 router.post(
     "/login",
     [
-        check("email", "Type correct email").normalizeEmail().isEmail(),
+        check("email", "Type correct email").isEmail(),
         check("password", "Type password").exists(),
     ],
     async (req, res) => {
@@ -64,7 +64,7 @@ router.post(
                     message: "Wrong login data",
                 });
             }
-
+            console.log(req.body);
             const { email, password } = req.body;
             const user = await User.findOne({ email });
             if (!user) {
