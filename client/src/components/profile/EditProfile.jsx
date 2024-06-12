@@ -91,6 +91,7 @@ export const EditProfile = ({ profile, form, changeHandler, editProfile }) => {
                                 margin: "10px",
                             }}
                             type="number"
+                            min="1"
                             value={form.height}
                         />
                         {errors.height && (
@@ -113,6 +114,7 @@ export const EditProfile = ({ profile, form, changeHandler, editProfile }) => {
                                 margin: "10px",
                             }}
                             type="number"
+                            min="1"
                             value={form.weight}
                         />
                         {errors.weight && (
@@ -135,6 +137,7 @@ export const EditProfile = ({ profile, form, changeHandler, editProfile }) => {
                                 margin: "10px",
                             }}
                             type="number"
+                            min="1"
                             value={form.age}
                         />
                         {errors.age && (

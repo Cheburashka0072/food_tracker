@@ -113,6 +113,7 @@ export const CreateProfile = ({ changeHandler, confirmProfile }) => {
                                 margin: "10px",
                             }}
                             type="number"
+                            min="1"
                             value={form.height}
                             placeholder="Введіть зріст"
                         />
@@ -136,6 +137,7 @@ export const CreateProfile = ({ changeHandler, confirmProfile }) => {
                                 margin: "10px",
                             }}
                             type="number"
+                            min="1"
                             value={form.weight}
                             placeholder="Введіть вагу"
                         />
@@ -159,6 +161,7 @@ export const CreateProfile = ({ changeHandler, confirmProfile }) => {
                                 margin: "10px",
                             }}
                             type="number"
+                            min="1"
                             value={form.age}
                             placeholder="Введіть вік"
                         />
