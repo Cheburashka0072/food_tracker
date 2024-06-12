@@ -13,7 +13,7 @@ router.post("/create", auth, async (req, res) => {
         res.status(200).json({ body: dish, message: "Продукт додано" });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -25,7 +25,7 @@ router.post("/defCreate", auth, async (req, res) => {
         res.status(200).json({ body: dish, message: "Дані додано" });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -40,7 +40,7 @@ router.post("/delete", auth, async (req, res) => {
         });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -62,7 +62,7 @@ router.put("/edit", auth, async (req, res) => {
         return res.status(200).json({ message: "Продукт оновлено" });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -73,7 +73,7 @@ router.get("/", auth, async (req, res) => {
         res.json(dishes);
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -83,7 +83,7 @@ router.get("/defaultDishes", auth, async (req, res) => {
         res.json(dishes);
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./addDishes.css";
+import MyButton from "../UI/button/MyButton";
 
-export const AddDishes = ({ dish, createDish }) => {
+export const AddDishes = ({ createDish }) => {
     const [form, setForm] = useState({
         name: "",
         calories: "",
@@ -10,8 +11,55 @@ export const AddDishes = ({ dish, createDish }) => {
         fats: "",
     });
 
-    const changeHandler = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const [errors, setErrors] = useState({});
+
+    const validateField = (name, value) => {
+        let error = false;
+
+        if (!value) {
+            error = true;
+        }
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: error,
+        }));
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        validateField(name, value);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        validateField(name, value);
+        setForm({ ...form, [name]: value });
+    };
+
+    const isFormValid = () => {
+        return (
+            Object.values(errors).every((error) => error === "") &&
+            Object.values(form).every((value) => value !== "")
+        );
+    };
+
+    const handleSubmit = () => {
+        if (isFormValid()) {
+            createDish(form);
+            setForm({
+                name: "",
+                calories: "",
+                carbohydrates: "",
+                proteins: "",
+                fats: "",
+            });
+            setErrors({});
+        } else {
+            Object.keys(form).forEach((field) =>
+                validateField(field, form[field])
+            );
+        }
     };
 
     return (
@@ -29,7 +77,11 @@ export const AddDishes = ({ dish, createDish }) => {
                 type="text"
                 value={form.name}
                 placeholder="Назва продукту"
-                onChange={(e) => changeHandler(e)}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                style={{
+                    border: errors.name ? "1px solid red" : "1px solid #d9d9d9",
+                }}
             />
             <div
                 style={{
@@ -41,10 +93,16 @@ export const AddDishes = ({ dish, createDish }) => {
                     id="calories"
                     name="calories"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.calories}
                     placeholder="Кількість калорій"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.calories
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
@@ -58,10 +116,16 @@ export const AddDishes = ({ dish, createDish }) => {
                     id="carbohydrates"
                     name="carbohydrates"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.carbohydrates}
                     placeholder="Кількість вуглеводів"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.carbohydrates
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
@@ -75,10 +139,16 @@ export const AddDishes = ({ dish, createDish }) => {
                     id="proteins"
                     name="proteins"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.proteins}
                     placeholder="Кількість білків"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.proteins
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
@@ -92,36 +162,23 @@ export const AddDishes = ({ dish, createDish }) => {
                     id="fats"
                     name="fats"
                     className="add__input"
-                    type="text"
+                    type="number"
                     value={form.fats}
                     placeholder="Кількість жирів"
-                    onChange={(e) => changeHandler(e)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={{
+                        border: errors.fats
+                            ? "1px solid red"
+                            : "1px solid #d9d9d9",
+                    }}
                 />
                 <p style={{ margin: "0 0 5px 5px", color: "grey" }}>/100г</p>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                    style={{
-                        marginTop: "15px",
-                        padding: "7px 12px",
-                        backgroundColor: "#ffa800",
-                        borderRadius: "32px",
-                        fontWeight: "500",
-                        color: "white",
-                    }}
-                    onClick={() => {
-                        createDish(form);
-                        setForm({
-                            name: "",
-                            calories: "",
-                            carbohydrates: "",
-                            proteins: "",
-                            fats: "",
-                        });
-                    }}
-                >
+                <MyButton onClick={handleSubmit} disabled={!isFormValid()}>
                     Додати продукт до довідника
-                </button>
+                </MyButton>
             </div>
         </div>
     );

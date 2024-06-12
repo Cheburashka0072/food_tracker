@@ -5,3 +5,7 @@
     font-weight: 500;
     color: white;
 }
+
+.myBtn:disabled {
+    background-color: #a4a4a4;
+}

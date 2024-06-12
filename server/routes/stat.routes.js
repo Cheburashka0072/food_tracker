@@ -13,14 +13,12 @@ router.post("/manipulate", auth, async (req, res) => {
                 owner: req.user.userId,
             });
             if (deletedStat) {
-                console.log("Deleted:", deletedStat);
                 return res.status(200).json({
                     message: "Успішно видалено",
                 });
             } else {
-                console.log("No stat found to delete.");
                 return res.status(404).json({
-                    message: "No record found to delete",
+                    message: "Не знайдено записів для видалення",
                 });
             }
         }
@@ -50,7 +48,7 @@ router.post("/manipulate", auth, async (req, res) => {
         res.status(201).json({ body: stat, message: "Дані додано" });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -61,7 +59,7 @@ router.get("/", auth, async (req, res) => {
         res.json(stats);
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });

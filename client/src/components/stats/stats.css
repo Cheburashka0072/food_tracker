@@ -9,15 +9,15 @@
 .table__row-item {
     width: 15%;
     padding: 10px;
-    border-width: 0px 0 0 1px;
+    border-width: 0 0 0 1px;
     border-style: solid;
     border-color: #d9d9d9;
 }
 .table__row-item:first-child {
     border-width: 0;
 }
-.table__row:last-child {
+/* .table__row:last-child {
     border-bottom: 1px;
     border-style: solid;
     border-color: #d9d9d9;
-}
+} */

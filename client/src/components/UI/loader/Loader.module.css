@@ -1,0 +1,27 @@
+.loader {
+    width: 75px;
+    height: 75px;
+    background: center / contain no-repeat url("../../../img/loader/frame1.png");
+    animation: eat-apple 500ms steps(1) infinite;
+}
+
+@keyframes eat-apple {
+    0% {
+        background-image: url("../../../img/loader/frame1.png");
+    }
+    20% {
+        background-image: url("../../../img/loader/frame2.png");
+    }
+    40% {
+        background-image: url("../../../img/loader/frame3.png");
+    }
+    60% {
+        background-image: url("../../../img/loader/frame4.png");
+    }
+    80% {
+        background-image: url("../../../img/loader/frame5.png");
+    }
+    100% {
+        background-image: url("../../../img/loader/frame1.png");
+    }
+}

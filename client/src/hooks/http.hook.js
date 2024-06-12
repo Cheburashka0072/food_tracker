@@ -8,6 +8,8 @@ export const useHttp = () => {
     const request = useCallback(
         async (url, method = "GET", body = null, headers = {}) => {
             setLoading(true);
+            setError(null);
+
             try {
                 if (body) {
                     headers["Content-Type"] = "application/json";
@@ -18,21 +20,20 @@ export const useHttp = () => {
                     url,
                     data: body,
                     headers,
-                }).catch((e) => {
-                    if (e.response.status === 401)
-                        localStorage.removeItem("userData");
                 });
 
                 const data = response.data;
-                if (!response.status.toString().startsWith("2")) {
-                    throw new Error(data.message || "Something went wrong");
-                }
 
                 setLoading(false);
                 return data;
             } catch (e) {
                 setLoading(false);
-                setError(e.response.data.message);
+                const errorMessage =
+                    e.response?.data?.message || "Something went wrong";
+                setError(errorMessage);
+                if (e.response?.status === 401) {
+                    localStorage.removeItem("userData");
+                }
                 throw e;
             }
         },

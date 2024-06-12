@@ -1,12 +1,14 @@
 import logoImg from "./../../img/header/logo.png";
 import header_btnImg from "./../../img/header/header_btn.png";
 import "./header.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext, ProfileContext } from "../../context";
+import { AuthContext } from "../../context";
 
 function Header() {
     const { token, isAuth } = useContext(AuthContext);
+    const location = useLocation();
+
     return (
         <header className="header">
             <div className="container">
@@ -18,16 +20,48 @@ function Header() {
                         <div className="header__nav">
                             <ul>
                                 <li>
-                                    <Link to="/">ГОЛОВНА</Link>
-                                </li>
-                                <li>
-                                    <Link to="/statistics">ЗВІТ</Link>
-                                </li>
-                                <li>
-                                    <Link to="/directory">ДОВІДНИК</Link>
+                                    <Link
+                                        style={
+                                            location.pathname === "/"
+                                                ? { color: "#b0cc0d" }
+                                                : {}
+                                        }
+                                        to="/"
+                                    >
+                                        ГОЛОВНА
+                                    </Link>
                                 </li>
                                 <li>
                                     <Link
+                                        style={
+                                            location.pathname === "/statistics"
+                                                ? { color: "#b0cc0d" }
+                                                : {}
+                                        }
+                                        to="/statistics"
+                                    >
+                                        ЗВІТ
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        style={
+                                            location.pathname === "/directory"
+                                                ? { color: "#b0cc0d" }
+                                                : {}
+                                        }
+                                        to="/directory"
+                                    >
+                                        ДОВІДНИК
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        style={
+                                            location.pathname === "/profile"
+                                                ? { backgroundColor: "#b0cc0d" }
+                                                : {}
+                                        }
                                         className="header__nav-btn"
                                         to="/profile"
                                     >

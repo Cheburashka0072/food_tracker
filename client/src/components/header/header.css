@@ -1,49 +1,49 @@
 .header {
-  padding: 46px 0 70px;
+    padding: 46px 0 70px;
 }
 
 .header__row {
-  display: flex;
-  column-gap: 30px;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    column-gap: 30px;
+    align-items: center;
+    justify-content: space-between;
 }
 .header__logo {
-  display: flex;
+    display: flex;
 }
 .header__nav ul {
-  display: flex;
-  column-gap: 65px;
-  align-items: center;
+    display: flex;
+    column-gap: 65px;
+    align-items: center;
 }
 
 .header__nav a {
-  color: black;
-  font-weight: 500;
+    color: black;
+    font-weight: 500;
 }
 
 .header__nav-btn {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  padding: 8px 22px 8px 10px;
-  background-color: #ffa800;
-  border-radius: 32px;
-  font-weight: 800;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 8px 22px 8px 10px;
+    background-color: #ffa800;
+    border-radius: 32px;
+    font-weight: 800;
 }
 .header__nav-btn,
 a.header__nav-btn {
-  color: white;
+    color: white;
 }
 
 .header__nav-btn-img {
-  display: block;
-  margin-right: 17px;
+    display: block;
+    margin-right: 17px;
 }
 .header__nav a:not(.header__nav-btn):hover {
-  color: #b0cc0d;
+    color: #b0cc0d;
 }
 .header__nav-btn:hover {
-  color: white;
-  font-weight: 700;
+    color: white;
+    background-color: #b0cc0d;
 }
