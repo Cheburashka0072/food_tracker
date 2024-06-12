@@ -20,10 +20,14 @@ export const AddDishes = ({ createDish }) => {
     });
 
     const validateField = (name, value) => {
-        let error = "";
-
-        if (!value) {
-            error = "Поле не может быть пустым.";
+        let error = false;
+        if (
+            !value ||
+            (["calories", "carbohydrates", "proteins", "fats"].includes(name) &&
+                (!/^(0|[1-9]\d*)(\.\d+)?$/.test(value) ||
+                    parseFloat(value) < 1))
+        ) {
+            error = true;
         }
 
         setErrors((prevErrors) => ({

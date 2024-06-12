@@ -9,10 +9,15 @@ export const EditDishes = ({ dish, editDish }) => {
     const [errors, setErrors] = useState({});
 
     const validateField = (name, value) => {
-        let error = "";
+        let error = false;
 
-        if (!value) {
-            error = "Це поле є обов'язковим.";
+        if (
+            !value ||
+            (["calories", "carbohydrates", "proteins", "fats"].includes(name) &&
+                (!/^(0|[1-9]\d*)(\.\d+)?$/.test(value) ||
+                    parseFloat(value) < 1))
+        ) {
+            error = true;
         }
 
         setErrors((prevErrors) => ({
@@ -34,8 +39,8 @@ export const EditDishes = ({ dish, editDish }) => {
 
     const isFormValid = () => {
         return (
-            Object.values(errors).every((error) => error === "") &&
-            Object.values(form).every((value) => value !== "")
+            Object.values(errors).every((error) => error === false) &&
+            Object.values(form).every((value) => value !== false)
         );
     };
 

@@ -10,6 +10,11 @@ export const EditProfile = ({ profile, form, changeHandler, editProfile }) => {
 
         if (!value) {
             error = "Це поле є обов'язковим.";
+        } else if (
+            ["height", "weight", "age"].includes(name) &&
+            (!/^(0|[1-9]\d*)(\.\d+)?$/.test(value) || parseFloat(value) < 1)
+        ) {
+            error = "Неправильні дані.";
         }
 
         setErrors((prevErrors) => ({

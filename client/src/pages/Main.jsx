@@ -179,10 +179,6 @@ const Main = () => {
         newPersonStats[indexOfStats].water = water;
         addStat(newPersonStats, indexOfStats);
         setPersonStats(newPersonStats);
-        const statsToRecord = personStats.filter(
-            (stat) => stat.personMeals.length > 0 || stat.water > 0
-        );
-        localStorage.setItem("recordedStats", JSON.stringify(statsToRecord));
     };
     const addStat = async (newPersonStats, indexOfStats) => {
         try {

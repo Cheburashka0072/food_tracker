@@ -29,7 +29,7 @@ export const useHttp = () => {
             } catch (e) {
                 setLoading(false);
                 const errorMessage =
-                    e.response?.data?.message || "Something went wrong";
+                    e.response?.data?.message || "Щось пішло не так";
                 setError(errorMessage);
                 if (e.response?.status === 401) {
                     localStorage.removeItem("userData");
