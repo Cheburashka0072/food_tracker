@@ -11,13 +11,19 @@ export const AddDishes = ({ createDish }) => {
         fats: "",
     });
 
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({
+        name: "",
+        calories: "",
+        carbohydrates: "",
+        proteins: "",
+        fats: "",
+    });
 
     const validateField = (name, value) => {
-        let error = false;
+        let error = "";
 
         if (!value) {
-            error = true;
+            error = "Поле не может быть пустым.";
         }
 
         setErrors((prevErrors) => ({
@@ -45,6 +51,7 @@ export const AddDishes = ({ createDish }) => {
     };
 
     const handleSubmit = () => {
+        Object.keys(form).forEach((field) => validateField(field, form[field]));
         if (isFormValid()) {
             createDish(form);
             setForm({
@@ -54,11 +61,13 @@ export const AddDishes = ({ createDish }) => {
                 proteins: "",
                 fats: "",
             });
-            setErrors({});
-        } else {
-            Object.keys(form).forEach((field) =>
-                validateField(field, form[field])
-            );
+            setErrors({
+                name: "",
+                calories: "",
+                carbohydrates: "",
+                proteins: "",
+                fats: "",
+            });
         }
     };
 
