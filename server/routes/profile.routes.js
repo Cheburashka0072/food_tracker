@@ -13,7 +13,7 @@ router.post("/create", auth, async (req, res) => {
         res.status(201).json({ profile });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -29,7 +29,7 @@ router.put("/edit", auth, async (req, res) => {
         res.status(201).json({ message: "Профіль успішно оновлено" });
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });
@@ -40,7 +40,7 @@ router.get("/", auth, async (req, res) => {
         res.json(profile);
     } catch (e) {
         res.status(500).json({
-            message: "Something went wrong, try again",
+            message: "Щось пішло не так, повторіть спробу",
         });
     }
 });

@@ -237,7 +237,7 @@ const DishDirectory = () => {
                 </div>
             </div>
             <div>
-                <div>
+                <div style={{ borderBottom: "1px solid #d9d9d9" }}>
                     {dishes && searchedDishes.length > 0 ? (
                         searchedDishes
                             .slice(currentPage * 10 - 10, currentPage * 10)
@@ -311,7 +311,9 @@ const DishDirectory = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 padding: "30px 0",
-                                border: "1px solid #d9d9d9",
+                                borderWidth: "1px 1px 0",
+                                borderStyle: "solid",
+                                borderColor: "#d9d9d9",
                             }}
                         >
                             Продуктів не знайдено

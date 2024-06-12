@@ -25,7 +25,7 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: "Wrong registration data",
+                    message: "Неправильні реєстраційні дані",
                 });
             }
             console.log(req.body);
@@ -34,16 +34,16 @@ router.post(
             if (candidate) {
                 return res
                     .status(400)
-                    .json({ message: "This user already exists" });
+                    .json({ message: "Цей користувач уже існує" });
             }
             const hashedPassword = await bcrypt.hash(password, 12);
             const user = new User({ email, password: hashedPassword });
             await user.save();
 
-            res.status(201).json({ message: "User created successfully" });
+            res.status(201).json({ message: "Користувача створено успішно" });
         } catch (e) {
             res.status(500).json({
-                message: "Something went wrong, try again",
+                message: "Щось пішло не так, повторіть спробу",
             });
         }
     }
@@ -61,20 +61,22 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: "Wrong login data",
+                    message: "Неправильні дані для входу",
                 });
             }
             console.log(req.body);
             const { email, password } = req.body;
             const user = await User.findOne({ email });
             if (!user) {
-                return res.status(400).json({ message: "User not found" });
+                return res
+                    .status(400)
+                    .json({ message: "Користувача не знайдено" });
             }
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res
                     .status(400)
-                    .json({ message: "Wrond password, try again" });
+                    .json({ message: "Неправильний пароль, спробуйте ще раз" });
             }
             const token = jwt.sign(
                 { userId: user.id },
@@ -84,7 +86,7 @@ router.post(
             res.json({ token, userId: user.id });
         } catch (e) {
             res.status(500).json({
-                message: "Something went wrong, try again",
+                message: "Щось пішло не так, повторіть спробу",
             });
         }
     }
